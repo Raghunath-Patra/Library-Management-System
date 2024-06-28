@@ -3,7 +3,11 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+a {
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+}
 .login_page {
   font-family: Arial, sans-serif;
   background-color: #f8f8f8;
@@ -497,4 +501,125 @@ footer {
 
 #contact_icons i {
   width: 50px;
+}
+
+/*--------issue_book--------*/
+#book_container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: row-reverse;
+}
+
+#book_container .img_n_likes {
+  width: 46vh;
+  height: 53vh;
+  background-color: transparent;
+  display: flex;
+}
+
+.book_details {
+  width: 100%;
+}
+
+.book_details .order div {
+  height: 30px;
+  width: clamp(270px, 75%, 400px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+  border-radius: 60px;
+  background-color: rgba(248, 244, 7, 0.796);
+}
+
+.book_details .order,
+.book_details .dates {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.book_details .order #issue_book {
+  background-color: rgba(248, 172, 7, 0.796);
+}
+
+.book_details .description_of_book {
+  padding-left: 30px;
+}
+
+.book_details .dates .wrapper {
+
+  width: 150px;
+  height: 30px;
+  background-color: #e7ecea;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #8b8d8c;
+  border-radius: 7px;
+}
+
+.book_details .dates .wrapper span {
+  width: 100%;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.book_details .dates .wrapper .num {
+  border-right: 1px solid #8b8d8c;
+  border-left: 1px solid #8b8d8c;
+  pointer-events: none;
+}
+
+.dates b div {
+  display: flex;
+
+}
+
+.book_details .review_section {
+  width: 100%;
+  height: 400px;
+  margin-top: 10px;
+  background-color: antiquewhite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.book_details .review_section .review_box {
+  width: clamp(260px, 75%, 500px);
+  height: clamp(40vh, 75%, 60vh);
+  margin-top: 20px;
+  background-color: #e7ecea;
+  border: 2px solid #8b8d8c;
+  border-radius: 12px;
+  overflow-y: auto;
+}
+
+.book_details .review_section .review_box #review {
+  padding: 10px;
+}
+
+.book_details .review_section .review_box #review_comment {
+  padding-left: 30px;
+}
+
+.book_details .review_section .add_review {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.book_details .review_section .add_review textarea {
+  width: 250px;
+  border: 2px solid #8b8d8c;
+  border-radius: 4px;
+}
+
+::placeholder {
+  color: #000;
+  opacity: 1;
 }
