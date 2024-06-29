@@ -3,11 +3,13 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 a {
   text-decoration: none;
   color: black;
   font-weight: 500;
 }
+
 .login_page {
   font-family: Arial, sans-serif;
   background-color: #f8f8f8;
@@ -97,7 +99,7 @@ input:focus {
   cursor: pointer;
 }
 
-#change_user {
+/* #change_user {
   width: 100%;
   height: 25px;
   text-align: center;
@@ -113,7 +115,7 @@ input:focus {
 #change_user:hover {
 
   background-color: #cccccc;
-}
+} */
 
 
 .login-container button:hover {
@@ -385,9 +387,6 @@ nav li a {
   border-radius: 7px;
 }
 */
-.navbar input {
-  padding: 5px;
-}
 
 #search_container {
   display: flex;
@@ -411,14 +410,13 @@ nav li a {
 }
 
 .search #search_bar {
-  width: 40%;
+  width: clamp(270px, 90%, 500px);
   height: 35px;
   border-radius: 60px;
   display: flex;
   align-items: center;
   background-color: #d1ece4;
   box-shadow: 0 0.5rem 0.7rem #c2c5c4;
-  min-width: 290px;
 }
 
 #search_bar input {
@@ -427,7 +425,7 @@ nav li a {
   border: 0;
   outline: none;
   font-size: large;
-  padding-left: 10px;
+
 }
 
 #search_bar i {
@@ -622,4 +620,189 @@ footer {
 ::placeholder {
   color: #000;
   opacity: 1;
+}
+
+/* admin dashboard */
+
+.container {
+  display: grid;
+  height: 100vh;
+  grid-gap: 0.5rem;
+  grid-template-areas:
+    'side_bar profile profile profile stu stu stu'
+    'side_bar activity activity activity activity activity activity';
+}
+
+.side_bar {
+  text-align: center;
+  border-radius: 7px;
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 0.5rem 0.7rem rgba(1, 0, 0, 0.333);
+  grid-area: side_bar;
+}
+
+.stu_activity {
+  text-align: center;
+  border-radius: 7px;
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 0.5rem 0.7rem rgba(1, 0, 0, 0.333);
+  grid-area: stu;
+}
+
+.profile {
+  display: inline-block;
+  text-align: center;
+  align-items: center;
+  border-radius: 7px;
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 0.5rem 0.7rem #0005;
+  grid-area: profile;
+}
+
+.activity {
+  text-align: center;
+  border-radius: 7px;
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 0.5rem 0.7rem #0005;
+  grid-area: activity;
+}
+
+.side_bar #nav_opts div {
+  width: 90%;
+  height: 35px;
+  background-color: rgba(213, 201, 228, 0.508);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  box-shadow: 0 0.5rem 0.7rem #0005;
+  margin: 5px;
+}
+
+.side_bar #nav_opts {
+  width: 100%;
+  height: 160px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#nav_opts div i {
+  width: 10px;
+  height: 10px;
+  padding-right: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#user_img {
+  display: flex;
+  justify-content: center;
+  height: 150px;
+  width: 150px;
+  border-style: groove;
+  border-color: #0005;
+  opacity: 0.5;
+  border-radius: 50%;
+  margin-left: 10px;
+  margin-top: 5px;
+  background-color: rgba(213, 201, 228, 0.508);
+  box-shadow: 0 0.5rem 0.7rem #0005;
+}
+
+/* change password */
+.login_page {
+  font-family: Arial, sans-serif;
+  background-color: #f8f8f8;
+  display: flex;
+  background-image: url('https://papers.co/wallpaper/papers.co-vy12-simple-white-pattern-background-8-wallpaper.jpg');
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  flex-direction: column;
+}
+
+.login-container {
+  background: transparent;
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  margin: 5px;
+}
+
+.logo {
+  margin-top: 100px;
+}
+
+.login-container h1 {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #333333;
+}
+
+.login-container form {
+  position: relative;
+}
+
+.login-container form input {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #cccccc;
+  border-radius: 7px;
+}
+
+.login-container form label {
+  position: relative;
+  left: 10px;
+  top: -29px;
+  padding-left: 5px;
+  padding-right: 5px;
+  background: white;
+  transition: all 0.3s ease;
+}
+
+.login-container .user_name,
+.login-container .user_password {
+  width: 100%;
+  height: 40px;
+  margin-bottom: 16px;
+  border: 1px solid #cccccc;
+  border-radius: 7px;
+}
+
+input:focus+label,
+input:valid+label {
+  font-size: 12px;
+  top: -50px;
+}
+
+input:focus+label {
+  color: blue;
+}
+
+input:focus {
+  border-color: blue;
+  outline: 1.5px solid blue;
+}
+
+.forgot_pass {
+  text-align: center;
+  margin-top: 4px;
+  text-decoration: none;
+}
+
+.forgot_pass :hover {
+  text-decoration: underline;
+  color: #4916d4;
 }
