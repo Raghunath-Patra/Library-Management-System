@@ -1,0 +1,117 @@
+<?php
+    session_start();
+    #$connection = new mysqli(server,username,password,database);
+    $domain = "@iitdh.ac.in";
+    $mobile = 10000000000;
+    $points = 0;
+    $query = "select * from users where roll = '$_SESSION[roll]'";
+    $query_run = mysqli_query($connection,$query);
+    while ($row = mysqli_fetch_assoc($query_run)){
+        $mobile = $row['mobile'];
+        $points = $row['points'];
+    }
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <section class="dash">
+        <div class="options">
+            <h3>OverFlow</h3>
+            <div id="nav_opts">
+                <div>
+                    <i class="fa-solid fa-user"></i>
+                    <a href="#dashboard" class="dash_link">Dashboard</a>
+                </div>
+                <div>
+                    <i class="fa-solid fa-user"></i>
+                    <a href="main_page.php" class="dash_link" target="_blank">Explore</a>
+                </div>
+                <div>
+                    <i class="fa-solid fa-user"></i>
+                    <a href="#reviews"class="dash_link">Reviews</a>
+                </div>
+                <div>
+                    <i class="fa-solid fa-user"></i>
+                    <a href="activity"class="dash_link">activity</a>
+                </div>
+            </div>
+        </div>
+        <div class="data">
+            <div class="user_data">
+                <div id="user_details">
+                    <div id="user_img">
+                        <i class="fa-solid fa-user" style="font-size: 120px;"></i>
+                    </div>
+                    <div id="user_contact">
+                        <h2><?php echo $_SESSION["name"]?></h2>
+                        <p>
+                            roll:<?php echo $_SESSION["roll"]; ?>
+                            <br>
+                            email:<?php echo $_SESSION["roll"].$domain; ?>
+                            <br>
+                            contact no:<?php echo $mobile?>
+                    </div>
+                </div>
+
+                <div class="points">
+                    <h2>Your Points</h2>
+                    <div id="score">
+                        <div id="coin">
+                            <h3>JD</h3>
+                        </div>
+                    </div>
+                    <h1><?php echo $points ?></h1>
+                </div>
+
+                <div id="how_to_earn_points" >
+                    <h2>How to earn more?</h2>
+                    <ul style="list-style-type: square;">
+                        <li>first item</li>
+                        <li>second item</li>
+                        <li>first item</li>
+                        <li>second item</li>
+                    </ul>
+                    <br>
+                    <h2>How to earn more?</h2>
+                    <ul style="list-style-type: square;">
+                        <li>first item</li>
+                        <li>second item</li>
+                        <li>first item</li>
+                        <li>second item</li>
+                    </ul>
+                </div>
+            </div>
+        
+            <div class="lib_record">
+                <div id="any">
+                <h2>YOUR RECORDS</h2>
+                <hr>
+                <table class="lib_table">
+                    <th>
+                        <tr>
+                            <thead>sl</thead>
+                            <thead>book_id</thead>
+                            <thead>name</thead>
+                            <thead>issue_date</thead>
+                            <thead>return</thead>
+                        </tr>
+                        <tr>
+                            <tbody>1</tbody>
+                            <tbody>ee34</tbody>
+                            <tbody>electrical and communication system</tbody>
+                            <tbody>16/13/2025</tbody>
+                            <tbody>04/00/2009</tbody>
+                        </tr>
+                    </th>
+                </table>
+            </div>
+    </section>
+</body>
+</html>
