@@ -1,16 +1,44 @@
 <?php
     session_start();
-    #$connection = new mysqli(server,username,password,database);
-    $domain = "@iitdh.ac.in";
-    $mobile = 10000000000;
-    $points = 0;
-    $query = "select * from users where roll = '$_SESSION[roll]'";
-    $query_run = mysqli_query($connection,$query);
-    while ($row = mysqli_fetch_assoc($query_run)){
-        $mobile = $row['mobile'];
-        $points = $row['points'];
+    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
+        #$connection = new mysqli(server,username,password,database);
+        $domain = "@iitdh.ac.in";
+        $mobile = 10000000000;
+        $points = 0;
+        $query_1 = "select * from users where roll = '$_SESSION[roll]'";
+        $query_run = mysqli_query($connection,$query_1);
+        while ($row = mysqli_fetch_assoc($query_run)){
+            $mobile = $row['mobile'];
+            $points = $row['points'];
+        }
+        $query_2 = "select COUNT(*) from issues where roll = '$_SESSION[roll]'";
+        $query_run = mysqli_query($connection,$query_2);
+        while ($row = mysqli_fetch_assoc($query_run)){
+            $records = $row["COUNT(*)"];
+        } 
+        $query_3 = "select title,author,issuedate,duedate,returned from issues,books where books.id = issues.bookid AND roll ='$_SESSION[roll]' ; ";
+        $result = mysqli_query($connection,$query_3);
+        $html = "";
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                $html .= "<tr>
+                            <td>" . $row["title"] . "</td>
+                            <td>" . $row["author"] . "</td>
+                            <td>" . $row["issuedate"] . "</td>
+                            <td>" . $row["duedate"] . "</td>
+                            <td>" . ($row["returned"] ? 'Yes' : 'No') . "</td>
+                          </tr>";
+            }
+        } else {
+            $html .= "<tr><td colspan='5'>No records found</td></tr>";
+        }
+        $connection->close();
+    }
+    else {
+        header("Location:logout.php");
     }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +48,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+
 <body>
     <section class="dash">
         <div class="options">
@@ -93,25 +122,23 @@
                 <div id="any">
                 <h2>YOUR RECORDS</h2>
                 <hr>
-                <table class="lib_table">
-                    <th>
-                        <tr>
-                            <thead>sl</thead>
-                            <thead>book_id</thead>
-                            <thead>name</thead>
-                            <thead>issue_date</thead>
-                            <thead>return</thead>
-                        </tr>
-                        <tr>
-                            <tbody>1</tbody>
-                            <tbody>ee34</tbody>
-                            <tbody>electrical and communication system</tbody>
-                            <tbody>16/13/2025</tbody>
-                            <tbody>04/00/2009</tbody>
-                        </tr>
-                    </th>
-                </table>
-            </div>
+
+                <div id="table-container"></div> 
+                    <table id="booksTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Author</th>
+                                <th>Issue Date</th>
+                                <th>Due Date</th>
+                                <th>Returned</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php echo $html ?>
+                        </tbody>
+                    </table>
+                </div>
     </section>
 </body>
 </html>

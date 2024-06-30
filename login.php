@@ -42,6 +42,8 @@
                                 $_SESSION['name'] =  $row['name'];
                                 $_SESSION['roll'] =  $row['roll'];
                                 $_SESSION['password'] =  $row['password'];
+                                $_SESSION['loggedin'] = true;
+                                $connection->close();
                                 header("Location: stu_dashboard.php");
                             }
                         }

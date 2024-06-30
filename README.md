@@ -27,3 +27,4 @@ Everything is similar to the the student interface, the things the differ are:
 1. Launch your webserver.
 2. Make sure to refer to database setup.txt to get and run the provided commands to setup your database.
 3. Add a few sample user, reviews,likes to make sure all features are running.
+4. In all php files uncomment #connection and make sure to fill the parameters accordingly

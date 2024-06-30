@@ -1,5 +1,9 @@
 <?php
     session_start();
+    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
+    } else {
+        header("Location:logout.php");
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +21,7 @@
             <img src="https://www.bing.com/images/blob?bcid=RD..1RMpsCoHK-aIhSrEz4JCSVqs.....2A" alt="none">
         </div>
         <div class="login-container">
-            <h1>Change Password <?php echo $_SESSION['password']?> <?php echo $_SESSION['roll']?></h1>
+            <h1>Change Password</h1>
             <form action="" method="POST">
                 <div class="user_password">
                     <input type="password" id="oldpasswd" name="oldpasswd" required>
@@ -49,6 +53,7 @@
                             echo "failed";
                           }
                     }
+                    $connection->close();
                                 ?>
             }
             </script>

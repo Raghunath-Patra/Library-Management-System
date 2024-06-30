@@ -1,5 +1,9 @@
 <?php
     session_start();
+    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
+    } else {
+        header("Location:logout.php");
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +29,7 @@
                 <li><a href="#recommendation">For You</a></li>
                 <li><a href="#e_books">E-Books</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <li><a href="stu_dashboard.html">Me</a></li>
+                <li><a href="stu_dashboard.php">Me</a></li>
             </ul>
         </nav>
     </header>

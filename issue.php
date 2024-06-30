@@ -1,22 +1,33 @@
 <?php
     session_start();
-    $_SESSION['book_id'] = 50;
-    #$connection = new mysqli(server,username,password,database);
-    $query_1 = "select * from books where id = '$_SESSION[book_id]'";
-    $query_run = mysqli_query($connection,$query_1);
-    while ($row = mysqli_fetch_assoc($query_run)){
-        $title = $row['title'];
-        $author = $row['author'];
-        $description = $row['description'];
-        $genre = $row['genre'];
-        $department = $row['department'];
-        $vendor = $row['vendor'];
-        $publisher = $row['publisher'];
+        if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
+        $_SESSION['book_id'] = 50;
+        #$connection = new mysqli(server,username,password,database);
+        $query_1 = "select * from books where id = '$_SESSION[book_id]'";
+        $query_run = mysqli_query($connection,$query_1);
+        while ($row = mysqli_fetch_assoc($query_run)){
+            $title = $row['title'];
+            $author = $row['author'];
+            $description = $row['description'];
+            $genre = $row['genre'];
+            $department = $row['department'];
+            $vendor = $row['vendor'];
+            $publisher = $row['publisher'];
+        }
+        $query_2 = "select COUNT(*) from reviews WHERE bookid = '$_SESSION[book_id]'";
+        $query_run = mysqli_query($connection,$query_2);
+        while($row = mysqli_fetch_assoc($query_run)){
+            $reviews = $row["COUNT(*)"];
+        }
+        $query_3 = "select COUNT(*) from likes WHERE bookid = '$_SESSION[book_id]'";
+        $query_run = mysqli_query($connection,$query_2);
+        while($row = mysqli_fetch_assoc($query_run)){
+            $likes = $row["COUNT(*)"];
+        }
+        $connection->close();
     }
-    $query_2 = "select COUNT(*) from reviews WHERE bookid = '$_SESSION[book_id]'";
-    $query_run = mysqli_query($connection,$query_2);
-    while($row = mysqli_fetch_assoc($query_run)){
-        $reviews = $row["COUNT(*)"];
+    else{
+        header("Location:logout.php");
     }
 ?>
 <!DOCTYPE html>
@@ -34,7 +45,7 @@
     <a href="javascript:history.back()" style="text-decoration: none; color:black; margin: 10px;">Go Back</a>
     <div id="book_container">
             <div class="likes">
-                <i class="fa-regular fa-heart">23</i>
+                <i class="fa-regular fa-heart"><?php echo $likes ?></i>
             </div>
             <img id="book_img_1" class="img_n_likes" src="https://openclipart.org/image/2400px/svg_to_png/204361/1415799000.png" alt="Book">
     </div>
