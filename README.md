@@ -17,3 +17,13 @@ Everything is similar to the the student interface, the things the differ are:
 1. There is a point reward system ,which encorages students in taking the books and submitting on time.
 2. A student can comment or write a review about the books, also there is a like option. 
 #### Team: Jobless Developers
+
+### Prequisites:
+1. Webserver
+2. Php(make sure the webserver also has php enabled)
+3. SQL
+
+### How to run:
+1. Launch your webserver.
+2. Make sure to refer to database setup.txt to get and run the provided commands to setup your database.
+3. Add a few sample user, reviews,likes to make sure all features are running.
