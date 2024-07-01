@@ -1,8 +1,8 @@
-<?php
+    <?php
     session_start();
         if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
         $_SESSION['book_id'] = 50;
-        #$connection = new mysqli(server,username,password,database);
+        $connection = new mysqli("localhost","root","","soi");
         $query_1 = "select * from books where id = '$_SESSION[book_id]'";
         $query_run = mysqli_query($connection,$query_1);
         while ($row = mysqli_fetch_assoc($query_run)){
@@ -24,7 +24,6 @@
         while($row = mysqli_fetch_assoc($query_run)){
             $likes = $row["COUNT(*)"];
         }
-        $connection->close();
     }
     else{
         header("Location:logout.php");
@@ -88,25 +87,63 @@
                 <h3>Add to Cart</h3>
             </div>
         </div>
-
+        <?php 
+            
+            if ( ! empty($_POST['comment'])){
+                $comment = $_POST['comment'];
+                $t = time();
+                $t1 = date("Y-m-d",$t);
+                $query5 = "insert into reviews values(";
+                $query5= $query5.$_SESSION["book_id"].",". $_SESSION["roll"].",".$comment . ",".$t1 .")";
+                mysqli_query($connection,$query5);
+            }
+            
+        ?>
         <div class="review_section">
             <h1><?php echo $reviews ?> Total Reviews</h1>
             <div class="review_box">
                 <div id="review">
                     <b id="reviewer">
-                        @Meoww
+                    <?php
+                        $query = "select * from reviews";
+                        $query_run = mysqli_query($connection,$query);
+                        while ($row = mysqli_fetch_assoc($query_run))
+                        {
+                            if ($row["bookid"] == $_SESSION["book_id"])
+                            {
+                                echo $row["roll"];
+                            } 
+                        }
+                    ?>    
                     </b>
                     <p id="review_comment">
-                        ye ghatiya book hai...mat lena...
+                    <?php
+                        $query = "select * from reviews";
+                        $query_run = mysqli_query($connection,$query);
+                        while ($row = mysqli_fetch_assoc($query_run))
+                        {
+                            if ($row["bookid"] == $_SESSION["book_id"])
+                            {
+                                echo $row["review"];
+                            } 
+                        }
+                    ?>
                     </p>
                 </div>
 
             </div>
             <div class="add_review">
-                <textarea name="comment" id="user_review" placeholder="Enter your input here..."></textarea>
+                <!-- <textarea name="comment" id="user_review" placeholder="Enter your input here..."></textarea>
                 <button type="submit">
                     post >
-                </button>
+                </button> -->
+                <form name='form' method='post' action="issue.php">
+
+                Comment: <input type="text" name="comment" id="comment" placeholder="Enter your input here ..." ><br/>
+
+                <input type="submit" name="submit" value="Submit">  
+                
+                </form>
             </div>
         </div>
     </section>
