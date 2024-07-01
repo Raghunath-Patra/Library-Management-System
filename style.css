@@ -727,3 +727,119 @@ footer {
   background-color: rgba(213, 201, 228, 0.508);
   box-shadow: 0 0.5rem 0.7rem #0005;
 }
+/*-----------search page-----------*/
+.filter_container{
+    width:20vw;
+    background-color: aqua;
+    margin-right: 15px;
+}
+.filter_container h3{
+    width:100%;
+    padding: 3px;
+    text-align: center;
+}
+.filter_container optgroup{
+    margin: 5px;
+}
+.filter_container optgroup option{
+    width: 100%;
+    margin-left: 10px;
+    padding-right: 5px;
+    text-wrap: wrap;
+}
+
+.search_result_container{
+    width: 100%;
+    background-color: antiquewhite;
+}
+.search_result_container h2{
+    width:100%;
+    padding: 3px;
+    margin-bottom: 10px;
+}
+.search_result_container .resultant_books{
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    background-color: #c1c3c2e0;
+}
+.search_result_container .resultant_books .book_img{
+    height:20vh;
+    width:15vh;
+}
+.search_result_container .resultant_books .book_description{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 700px;
+}
+.hamburger div{
+    width: 25px;
+    height: 5px;
+    background: #000;
+    margin: 3px 0;
+    border-radius: 2px;
+    transition: 0.4s ease;
+}
+.hamburger{
+    padding-right: 5px;
+    padding: 5px;
+    display: none;
+    transition: 0.5s;
+    width: fit-content;
+    height: fit-content;
+}
+/*-----------------when Active-----------*/
+.active #bar1{
+    transform: translate(0,8.5px) rotate(-45deg);
+}
+.active #bar2{
+    opacity: 0;
+}
+.active #bar3{
+    transform: translate(0,-8.5px) rotate(45deg);
+}
+.filter_container_responsive{
+    position: absolute;
+    width: 200px;
+    z-index: 1;
+    backdrop-filter: blur(5px);
+    margin-left: 0px;
+    backdrop-filter: blur(10px);
+}
+.filter_container_responsive h3{
+    width:100%;
+    padding: 3px;
+    text-align: center;
+}
+.filter_container_responsive optgroup{
+    margin: 5px;
+}
+.filter_container_responsive optgroup option{
+    width: 100%;
+    margin-left: 10px;
+    padding-right: 5px;
+    text-wrap: wrap;
+}
+@media only screen and (max-width:700px){
+    .hamburger{
+        display: block;
+    }
+    .filter_container{
+        display: none;
+    }
+    
+}
+@media only screen and (max-width:400px){
+    .hamburger{
+        display: block;
+    }
+    .filter_container{
+        display: none;
+    }
+    .search_result_container .resultant_books{
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+}
