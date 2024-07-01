@@ -2,7 +2,7 @@
     session_start();
         if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
         $_SESSION['book_id'] = 50;
-        $connection = new mysqli("localhost","root","","soi");
+        $connection = new mysqli("localhost","root","Ranethegr8#123","SOI");
         $query_1 = "select * from books where id = '$_SESSION[book_id]'";
         $query_run = mysqli_query($connection,$query_1);
         while ($row = mysqli_fetch_assoc($query_run)){
@@ -93,8 +93,7 @@
                 $comment = $_POST['comment'];
                 $t = time();
                 $t1 = date("Y-m-d",$t);
-                $query5 = "insert into reviews values(";
-                $query5= $query5.$_SESSION["book_id"].",". $_SESSION["roll"].",".$comment . ",".$t1 .")";
+                $query5 = "insert into reviews values('$_SESSION[book_id]','$_SESSION[roll]','$comment','$t1')";
                 mysqli_query($connection,$query5);
             }
             
