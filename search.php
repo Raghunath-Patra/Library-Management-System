@@ -95,9 +95,9 @@
         <div style="display: flex;justify-content: space-between;">
                 <h2 id="no_of_results">Your search Returned 34 Results</h2>
                 <div class="hamburger" id="hamburger">
-                    <div class="bar" id="bar1"></div>
-                    <div class="bar" id="bar2"></div>
-                    <div class="bar" id="bar3"></div>
+                    <div class="bar1" id="hamburger"></div>
+                    <div class="bar2" id="hamburger"></div>
+                    <div class="bar3" id="hamburger""></div>
                 </div> 
         </div>
         <div class="resultant_books">
@@ -125,22 +125,30 @@
 <script>
     let toggle = document.getElementById("hamburger"),
         filter_container = document.getElementById("filter_container");
-    
-    document.onclick = function(e){
-        if(e.target.id === "hamburger" || e.target.id === "bar1" || e.target.id === "bar2" || e.target.id === "bar3"){
-            toggle.classList.toggle("active");
-            if(filter_container.className === "filter_container"){
-                filter_container.className += "_responsive";
-            }
-            else{
-                filter_container.className = "filter_container";
-            }
+    toggle.onclick = function(){
+        toggle.classList.toggle("active");
+        if(filter_container.className === "filter_container"){
+            filter_container.className += "_responsive";
         }
-        else if(filter_container.className === "filter_container_responsive"){
+        else{
+            filter_container.className = "filter_container";
+        }
+    }
+    document.onclick = function(e){
+        if(filter_container.className === "filter_container_responsive" && e.target.id !== "hamburger"){
             toggle.classList.toggle("active");
             filter_container.className = "filter_container";
         }
     }
+    function handleResize(){
+        let windowWidth = window.innerWidth;
+        if(windowWidth > 700 && filter_container.className === "filter_container_responsive"){
+            toggle.classList.toggle("active");
+            filter_container.className = "filter_container";
+        }
+    }
+    handleResize();
+    window.addEventListener("resize",handleResize);
     
 </script>
 </body>
