@@ -1,6 +1,48 @@
 <?php
     session_start();
     if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
+        $connection = new mysqli("localhost","root","Ranethegr8#123","SOI");
+        $query_1 = "SELECT b.department,  COUNT(*) as issue_count FROM issues i JOIN books b ON i.bookid = b.id GROUP BY b.department ORDER BY issue_count DESC LIMIT 3;";
+        $result_1 = mysqli_query($connection,$query_1);
+        $iter = 0;
+        if ($result_1->num_rows > 0) {
+            $query_2 = "SELECT b.id, b.title, b.author, b.department, COUNT(DISTINCT l.roll) AS like_count,COUNT(DISTINCT r.roll) AS review_count FROM books b LEFT JOIN likes l ON b.id = l.bookid LEFT JOIN  reviews r ON b.id = r.bookid WHERE b.department IN ('";
+            while($row = $result_1->fetch_assoc()) {
+                if($iter == 0){
+                    $query_2 .= $row["department"]."'";
+                    $iter = 1;
+                }
+                else{
+                    $query_2 .= ",'".$row["department"]."'";
+                }
+            }
+            $query_2 .= ")"."GROUP BY b.id, b.title, b.author,b.department ORDER BY like_count DESC LIMIT 6;";
+        } else {
+            $query_2 = "SELECT b.id, b.title, b.author, b.department, COUNT(DISTINCT l.roll) AS like_count,COUNT(DISTINCT r.roll) AS review_count FROM books b LEFT JOIN likes l ON b.id = l.bookid LEFT JOIN  reviews r ON b.id = r.bookid GROUP BY b.id, b.title, b.author,b.department ORDER BY like_count DESC LIMIT 6;";
+        }
+        $result_2 = mysqli_query($connection,$query_2);
+        $html = [];
+        while($row = $result_2->fetch_assoc())
+        {
+            $html[$iter] = "<div id=\"book".$iter."\" class=\"books\">
+                                <a href=\"issue.html\">
+                                    <img id=\"book_img_1\" class=\"book_img\"
+                                    src=\"https://openclipart.org/image/2400px/svg_to_png/204361/1415799000.png\" alt=\"Book\">
+                                </a>
+                                <div class=\"book_description\">
+                                    <h2>".$row["title"]."</h2>
+                                    <h3>".$row["author"]."</h3>
+                                    <div class=\"like_n_review\">
+                                        <div class=\"likes\">
+                                            <i class=\"fa-regular fa-heart\">".$row["like_count"]."</i>
+                                        </div>
+                                        <h4>".$row["review_count"]." Reviews</h4>
+                                    </div>
+                                </div>
+                            </div>";
+            $iter++;
+        }
+        $connection->close();
     } else {
         header("Location:logout.php");
     }
@@ -35,35 +77,42 @@
     </header>
     <section class="hero_section">
         <img id="institute_img" src="hero_img.jpg" alt="institute_img">
-        <pre>
-            <?php echo $_SESSION['name'] ?>
-            kjgd jcgaicja lclaucg
-            jjjdwijqk wudkikawdk 
-            udwygd uydkia
-            jbcj lknck lsjaud 
-            ihciug uaehfuyagduh
-            jbxytsfx uusgs
-        </pre>
 
     </section>
-    <div id="search_container">
+    <div id="search_container" style="margin-top: 10px;">
         <div class="search">
             <div class="drop_box">
-                <select>
-                    <option value="normal book">All</option>
-                    <option value="offline_books">Offline Only</option>
-                    <option value="e-book">e-book</option>
+                <select name="Doc Type" id="doc_type">
+                    <option value="Document Type">Document Type</option>
+                    <option value="Books">Books</option>
+                    <option value="Audio Visual Material">Audio Visual Material</option>
+                    <option value="E-Books">E-Books</option>
+                    <option value="Periodical">Periodical</option>
                 </select>
-                <select>
-                    <option value="opt1">option 1</option>
-                    <option value="opt2">option 2</option>
-                    <option value="opt3">option 3</option>
-                    <option value="opt4">option 4</option>
+                <select name="Language" id="language">
+                    <option value="Language">Language</option>
+                    <option value="English">English</option>
+                    <option value="Hindi">Hindi</option>
+                    <option value="Kannada">Kannada</option>
+                    <option value="French">French</option>
+                    <option value="Russian">Russian</option>
+                    <option value="Japanese">Japanese</option>
+                </select>
+                <select name="Branch" id="branch">
+                    <option value="branch">Branch</option>
+                    <option value="cse">CSE</option>
+                    <option value="ece">ECE</option>
+                    <option value="ee">EE</option>
+                    <option value="mnc">MnC</option>
+                    <option value="me">ME</option>
+                    <option value="ch">CH</option>
+                    <option value="ce">CE</option>
+                    <option value="bsms">BS-MS</option>
                 </select>
             </div>
             <div id="search_bar">
-                <input type="search" id="search_input" placeholder="Search here..." />
-                <a href="search.html"><i class="fa-solid fa-magnifying-glass"></i></a>
+                <input type="search" id="search_input" placeholder="Search here..."/>
+                <a href="search.html" ><i class="fa-solid fa-magnifying-glass"></i></a>
             </div>
         </div>
     </div>
@@ -72,92 +121,12 @@
             Suggested For You
         </h2>
         <div class="offline_books">
-            <div id="book1" class="books">
-                <a href="issue.html">
-                    <img id="book_img_1" class="book_img"
-                    src="https://openclipart.org/image/2400px/svg_to_png/204361/1415799000.png" alt="Book">
-                </a>
-                <div class="book_description">
-                    <h2>Name Of The Book</h2>
-                    <h3>Author of The Book</h3>
-                    <div class="like_n_review">
-                        <div class="likes">
-                            <i class="fa-regular fa-heart">23</i>
-                        </div>
-                        <h4>2 Reviews</h4>
-                    </div>
-                </div>
-            </div>
-            <div id="book2" class="books">
-                <img id="book_img_1" class="book_img"
-                    src="https://openclipart.org/image/2400px/svg_to_png/204361/1415799000.png" alt="Book">
-                <div class="book_description">
-                    <h2>Name Of The Book</h2>
-                    <h3>Author of The Book</h3>
-                    <div class="like_n_review">
-                        <div class="likes">
-                            <i class="fa-regular fa-heart">23</i>
-                        </div>
-                        <h4>2 Reviews</h4>
-                    </div>
-                </div>
-            </div>
-            <div id="book3" class="books">
-                <img id="book_img_1" class="book_img"
-                    src="https://openclipart.org/image/2400px/svg_to_png/204361/1415799000.png" alt="Book">
-                <div class="book_description">
-                    <h2>Name Of The Book</h2>
-                    <h3>Author of The Book</h3>
-                    <div class="like_n_review">
-                        <div class="likes">
-                            <i class="fa-regular fa-heart">23</i>
-                        </div>
-                        <h4>2 Reviews</h4>
-                    </div>
-                </div>
-            </div>
-            <div id="book4" class="books">
-                <img id="book_img_1" class="book_img"
-                    src="https://openclipart.org/image/2400px/svg_to_png/204361/1415799000.png" alt="Book">
-                <div class="book_description">
-                    <h2>Name Of The Book</h2>
-                    <h3>Author of The Book</h3>
-                    <div class="like_n_review">
-                        <div class="likes">
-                            <i class="fa-regular fa-heart">23</i>
-                        </div>
-                        <h4>2 Reviews</h4>
-                    </div>
-                </div>
-            </div>
-            <div id="book5" class="books">
-                <img id="book_img_1" class="book_img"
-                    src="https://openclipart.org/image/2400px/svg_to_png/204361/1415799000.png" alt="Book">
-                <div class="book_description">
-                    <h2>Name Of The Book</h2>
-                    <h3>Author of The Book</h3>
-                    <div class="like_n_review">
-                        <div class="likes">
-                            <i class="fa-regular fa-heart">23</i>
-                        </div>
-                        <h4>2 Reviews</h4>
-                    </div>
-                </div>
-            </div>
-            <div id="book6" class="books">
-                <img id="book_img_1" class="book_img"
-                    src="https://openclipart.org/image/2400px/svg_to_png/204361/1415799000.png" alt="Book">
-                <div class="book_description">
-                    <h2>Name Of The Book</h2>
-                    <h3>Author of The Book</h3>
-                    <div class="like_n_review">
-                        <div class="likes">
-                            <i class="fa-regular fa-heart">23</i>
-                        </div>
-                        <h4>2 Reviews</h4>
-                    </div>
-                </div>
-            </div>
+            <?php
+                foreach($html as $book)
+                {
+                    echo $book;
+                } 
+            ?>
         </div>
         <h2 style="padding: 5px;">
             Some E-Books
