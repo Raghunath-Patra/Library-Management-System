@@ -111,6 +111,7 @@
                             if ($row["bookid"] == $_SESSION["book_id"])
                             {
                                 echo $row["roll"];
+                                echo <br>;
                             } 
                         }
                     ?>    
@@ -124,6 +125,7 @@
                             if ($row["bookid"] == $_SESSION["book_id"])
                             {
                                 echo $row["review"];
+                                echo <br>;
                             } 
                         }
                     ?>
