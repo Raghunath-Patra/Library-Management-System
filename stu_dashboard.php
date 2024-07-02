@@ -64,11 +64,15 @@
                 </div>
                 <div>
                     <i class="fa-solid fa-user"></i>
-                    <a href="#reviews"class="dash_link">Reviews</a>
+                    <a href="change_password.php"class="dash_link">Change Password</a>
                 </div>
                 <div>
                     <i class="fa-solid fa-user"></i>
-                    <a href="activity"class="dash_link">activity</a>
+                    <a href="request_book.php"class="dash_link">Request a Book</a>
+                </div>
+                <div>
+                    <i class="fa-solid fa-user"></i>
+                    <a href="logout.php"class="dash_link">Log Out</a>
                 </div>
             </div>
         </div>
