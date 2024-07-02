@@ -1,12 +1,12 @@
 <?php
     session_start();
     if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
-        #$connection = new mysqli(server,username,password,database);
+        $connection = new mysqli("localhost","root","Ranethegr8#123","SOI");
         $query_1 = "SELECT b.department,  COUNT(*) as issue_count FROM issues i JOIN books b ON i.bookid = b.id GROUP BY b.department ORDER BY issue_count DESC LIMIT 3;";
         $result_1 = mysqli_query($connection,$query_1);
         $iter = 0;
         if ($result_1->num_rows > 0) {
-            $query_2 = "SELECT b.id, b.title, b.author, b.department, COUNT(DISTINCT l.roll) AS like_count,COUNT(DISTINCT r.roll) AS review_count FROM books b LEFT JOIN likes l ON b.id = l.bookid LEFT JOIN  reviews r ON b.id = r.bookid WHERE b.department IN ('";
+            $query_2 = "SELECT b.id, b.title, b.author, b.department, COUNT(l.bookid) AS like_count, COUNT(r.bookid) AS review_count FROM books b LEFT JOIN likes l ON b.id = l.bookid LEFT JOIN reviews r ON b.id = r.bookid LEFT JOIN (SELECT DISTINCT bookid FROM issues WHERE roll = 'CS23BT042') i ON b.id = i.bookid WHERE i.bookid IS NULL AND b.department IN ('";
             while($row = $result_1->fetch_assoc()) {
                 if($iter == 0){
                     $query_2 .= $row["department"]."'";
@@ -16,9 +16,9 @@
                     $query_2 .= ",'".$row["department"]."'";
                 }
             }
-            $query_2 .= ")"."GROUP BY b.id, b.title, b.author,b.department ORDER BY like_count DESC LIMIT 6;";
+            $query_2 .= ")"."GROUP BY b.id, b.title, b.author, b.department ORDER BY like_count DESC LIMIT 6;";
         } else {
-            $query_2 = "SELECT b.id, b.title, b.author, b.department, COUNT(DISTINCT l.roll) AS like_count,COUNT(DISTINCT r.roll) AS review_count FROM books b LEFT JOIN likes l ON b.id = l.bookid LEFT JOIN  reviews r ON b.id = r.bookid GROUP BY b.id, b.title, b.author,b.department ORDER BY like_count DESC LIMIT 6;";
+            $query_2 = "SELECT b.id, b.title, b.author, b.department, COUNT(l.bookid) AS like_count, COUNT(r.bookid) AS review_count FROM books b LEFT JOIN likes l ON b.id = l.bookid LEFT JOIN reviews r ON b.id = r.bookid LEFT JOIN (SELECT DISTINCT bookid FROM issues WHERE roll = 'CS23BT042') i ON b.id = i.bookid WHERE i.bookid IS NULL GROUP BY b.id, b.title, b.author, b.department ORDER BY like_count DESC LIMIT 6;";
         }
         $result_2 = mysqli_query($connection,$query_2);
         $html = [];
