@@ -1,7 +1,7 @@
 <?php
     session_start();
     if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
-        $connection = new mysqli("localhost","root","Ranethegr8#123","SOI");
+        #$connection = new mysqli(server,username,password,database);
         $query_1 = "SELECT b.department,  COUNT(*) as issue_count FROM issues i JOIN books b ON i.bookid = b.id GROUP BY b.department ORDER BY issue_count DESC LIMIT 3;";
         $result_1 = mysqli_query($connection,$query_1);
         $iter = 0;
