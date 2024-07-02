@@ -405,8 +405,6 @@ nav li a {
   align-items: center;
   width: 100%;
   margin-top: 4%;
-  height: 50px;
-
 }
 
 #search_container .search {
@@ -415,7 +413,6 @@ nav li a {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 60px;
   border-radius: 7px;
   flex-wrap: wrap;
 }
@@ -790,13 +787,13 @@ footer {
     height: fit-content;
 }
 /*-----------------when Active-----------*/
-.active #bar1{
+.active .bar1{
     transform: translate(0,8.5px) rotate(-45deg);
 }
-.active #bar2{
+.active .bar2{
     opacity: 0;
 }
-.active #bar3{
+.active .bar3{
     transform: translate(0,-8.5px) rotate(45deg);
 }
 .filter_container_responsive{
@@ -830,7 +827,7 @@ footer {
     }
     
 }
-@media only screen and (max-width:400px){
+@media only screen and (max-width:450px){
     .hamburger{
         display: block;
     }
