@@ -110,25 +110,12 @@
                             if ($row["bookid"] == $_SESSION["book_id"])
                             {
                                 echo $row["roll"];
+                                echo $row["review"];
                                 echo "<br>";
                             } 
                         }
                     ?>    
                     </b>
-                    <p id="review_comment">
-                    <?php
-                        $query = "select * from reviews";
-                        $query_run = mysqli_query($connection,$query);
-                        while ($row = mysqli_fetch_assoc($query_run))
-                        {
-                            if ($row["bookid"] == $_SESSION["book_id"])
-                            {
-                                echo $row["review"];
-                                echo "<br>";
-                            } 
-                        }
-                    ?>
-                    </p>
                 </div>
 
             </div>
