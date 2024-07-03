@@ -24,11 +24,9 @@
         $html = [];
         while($row = $result_2->fetch_assoc())
         {
-            $html[$iter] = "<div id=\"book".$iter."\" class=\"books\">
-                                <a href=\"issue.html\">
-                                    <img id=\"book_img_1\" class=\"book_img\"
-                                    src=\"https://openclipart.org/image/2400px/svg_to_png/204361/1415799000.png\" alt=\"Book\">
-                                </a>
+            $html[$iter] = "<div id=\"book".$iter."\" class=\"books\" onclick=\"redirectToIssue('".$row['id']."')\">
+                                <img id=\"book_img_1\" class=\"book_img\"
+                                src=\"https://openclipart.org/image/2400px/svg_to_png/204361/1415799000.png\" alt=\"Book\">
                                 <div class=\"book_description\">
                                     <h2>".$row["title"]."</h2>
                                     <h3>".$row["author"]."</h3>
@@ -46,6 +44,7 @@
     } else {
         header("Location:logout.php");
     }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,10 +57,27 @@
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Home</title>
-
+    <script>
+        function redirectToIssue(bookId) {
+            // Set session variable using AJAX
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'set_book_session.php'); // Create set_book_session.php to handle session setting
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // Redirect to issue.php after setting session
+                    window.location.href = 'issue.php';
+                } else {
+                    alert('Unable to set book session.');
+                }
+            };
+            xhr.send('book_id=' + bookId);
+        }
+    </script>
 </head>
 
 <body>
+
     <header>
         <nav>
             <img src="logo.jpg">
