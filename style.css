@@ -840,3 +840,118 @@ footer {
         align-items: center;
     }
 }
+
+/* ---------request page--------- */
+
+.request_page {
+  font-family: Arial, sans-serif;
+  background-color: #f8f8f8;
+  display: flex;
+  background-image: url('https://papers.co/wallpaper/papers.co-vy12-simple-white-pattern-background-8-wallpaper.jpg');
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  flex-direction: column;
+}
+
+.request-container {
+  background: transparent;
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  margin: 5px;
+}
+
+.logo {
+  margin-top: 100px;
+}
+
+.request-container h1 {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #333333;
+}
+
+.request-container form {
+  position: relative;
+}
+
+.request-container form input {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #cccccc;
+  border-radius: 7px;
+}
+
+.request-container form label {
+  position: relative;
+  left: 10px;
+  top: -29px;
+  padding-left: 5px;
+  padding-right: 5px;
+  background: white;
+  transition: all 0.3s ease;
+}
+
+.request-container .user_name,
+.request-container .book_name,
+.request-container .book_writer,
+.request-container .book_publisher {
+  width: 100%;
+  height: 40px;
+  margin-bottom: 16px;
+  border: 1px solid #cccccc;
+  border-radius: 7px;
+}
+
+.request-container .numbers {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.request-container .numbers .required_number,
+.request-container .numbers .stock {
+  width: 100%;
+  height: 40px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 16px;
+  border: 1px solid #cccccc;
+  border-radius: 7px;
+}
+
+input:focus+label,
+input:valid+label {
+  font-size: 12px;
+  top: -50px;
+}
+
+input:focus+label {
+  color: blue;
+}
+
+input:focus {
+  border-color: blue;
+  outline: 1.5px solid blue;
+}
+
+.request-container button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background-color: #007bff;
+  border-radius: 4px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.request-container button:hover {
+  background-color: #0056b3;
+  border-radius: 9px;
+}
