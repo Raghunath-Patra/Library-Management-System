@@ -41,12 +41,14 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Dash Board</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
 </head>
 
 <body>
@@ -64,85 +66,104 @@
                 </div>
                 <div>
                     <i class="fa-solid fa-user"></i>
-                    <a href="change_password.php"class="dash_link">Change Password</a>
+                    <a href="#reviews" class="dash_link">Reviews</a>
                 </div>
                 <div>
                     <i class="fa-solid fa-user"></i>
-                    <a href="request_book.php"class="dash_link">Request a Book</a>
+                    <a href="request.html" class="dash_link">Request a book</a>
                 </div>
                 <div>
                     <i class="fa-solid fa-user"></i>
-                    <a href="logout.php"class="dash_link">Log Out</a>
+                    <a href="logout.php" class="dash_link">Log out</a>
                 </div>
             </div>
         </div>
-        <div class="data">
-            <div class="user_data">
-                <div id="user_details">
-                    <div id="user_img">
-                        <i class="fa-solid fa-user" style="font-size: 120px;"></i>
-                    </div>
-                    <div id="user_contact">
-                        <h2><?php echo $_SESSION["name"]?></h2>
-                        <p>
-                            roll:<?php echo $_SESSION["roll"]; ?>
-                            <br>
-                            email:<?php echo $_SESSION["roll"].$domain; ?>
-                            <br>
-                            contact no:<?php echo $mobile?>
-                    </div>
-                </div>
 
-                <div class="points">
-                    <h2>Your Points</h2>
-                    <div id="score">
-                        <div id="coin">
-                            <h3>JD</h3>
-                        </div>
-                    </div>
-                    <h1><?php echo $points ?></h1>
-                </div>
+        <div id="user_details" class="user_details">
+            <div id="user_img">
+                <i class="fa-solid fa-user" style="font-size: 120px;"></i>
+            </div>
+            <div id="user_contact">
+                <h2>
+                    <?php echo $_SESSION["name"]?>
+                </h2>
+                <p>
+                    roll:
+                    <?php echo $_SESSION["roll"]; ?><br>
+                    email:
+                    <?php echo $_SESSION["roll"].$domain; ?><br>
+                    contact no:
+                    <?php echo $mobile?>
+                </p>
+            </div>
+        </div>
 
-                <div id="how_to_earn_points" >
-                    <h2>How to earn more?</h2>
-                    <ul style="list-style-type: square;">
-                        <li>first item</li>
-                        <li>second item</li>
-                        <li>first item</li>
-                        <li>second item</li>
-                    </ul>
-                    <br>
-                    <h2>How to earn more?</h2>
-                    <ul style="list-style-type: square;">
-                        <li>first item</li>
-                        <li>second item</li>
-                        <li>first item</li>
-                        <li>second item</li>
-                    </ul>
+        <div class="points">
+            <h2>Your Points</h2>
+            <div id="score">
+                <div id="coin">
+                    <h3>JD</h3>
                 </div>
             </div>
-        
-            <div class="lib_record">
-                <div id="any">
+            <!-- <h1><?php echo $points ?></h1> -->
+        </div>
+
+        <div id="how_to_earn_points" class="issue_bar">
+            <h1>Notifications</h1>
+            <h2>Yeha pe notifications hogne</h2>
+        </div>
+
+        <div class="activity">
+                <div class="graphic">
+              
+                  <div class="row">
+                    <div class="chart">
+                      <span class="block" title="On time">
+                         <span class="value">57%</span>
+                      </span>
+                      <span class="block" title="Delayed">
+                         <span class="value">43%</span>
+                      </span>
+                    </div>
+                  </div>
+              
+                </div>
+              
+                  <ul class="legend">
+                    <li>On time</li>
+                    <li>Delayed</li>
+                  </ul>
+        </div>
+
+        <div class="lib_record">
+            <div id="any">
                 <h2>YOUR RECORDS</h2>
                 <hr>
-
-                <div id="table-container"></div> 
-                    <table id="booksTable">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Author</th>
-                                <th>Issue Date</th>
-                                <th>Due Date</th>
-                                <th>Returned</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php echo $html ?>
-                        </tbody>
-                    </table>
-                </div>
+                <div id="table-container"></div>
+                <table id="booksTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Author</th>
+                            <th>Issue Date</th>
+                            <th>Due Date</th>
+                            <th>Returned</th>
+                        </tr>
+                        <tr>
+                            <th>Introduction to Algorithm</th>
+                            <th>Thomas H. Comen, Chaleres E. Leiserson, Ronald L Rivest, Cliifford Stein</th>
+                            <th>2024-06-30</th>
+                            <th>2024-07-05</th>
+                            <th>No</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- <?php echo $html ?> -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </section>
 </body>
+
 </html>
