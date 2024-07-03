@@ -66,15 +66,16 @@
             <b id="due_date">Due: 12/01/2013</b>
             <br>
             <b>Extend Due Date by
-                <div>
-                    <div class="wrapper">
-                        <span class="minus">-</span>
-                        <span class="num">00</span>
-                        <span class="plus">+</span>
-
+                <form name='form' method='post' action="issue.php">
+                    <div>
+                        <div class="wrapper">
+                            <span class="minus">-</span>
+                            <span class="num">00</span>
+                            <span class="plus">+</span>
+                        </div>
+                        <input type="submit" name="submit" value="Submit">  
                     </div>
-                    <button id="extend_date_by">Go</button>
-                </div>
+                </form>
             </b>
         </div>
         <div class="order">
