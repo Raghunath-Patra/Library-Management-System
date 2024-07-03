@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System - Request</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <section class="request_page">
+        <div class="logo">
+            <img src="https://www.bing.com/images/blob?bcid=RD..1RMpsCoHK-aIhSrEz4JCSVqs.....2A" alt="none">
+        </div>
+        <div class="request-container">
+            <h1>Request a book</h1>
+            <form action="" method="POST">
+                <div class="user_name">
+                    <input type="text" id="username" name="username" required>
+                    <label for="username">Username</label>
+                </div>
+                <div class="book_name">
+                    <input type="text" id="book_name" name="book_name" required>
+                    <label for="book_name">Book Title and edition</label>
+                </div>
+                <div class="book_writer">
+                    <input type="text" id="book_writer" name="book_writer" required>
+                    <label for="book_writer">Writer/Editor</label>
+                </div>
+                <div class="book_publisher">
+                    <input type="text" id="book_publisher" name="book_publisher" required>
+                    <label for="book_publisher">Publisher</label>
+                </div>
+                <div class="numbers">
+                    <div class="required_number">
+                        <input type="number" id="number" name="number" required>
+                        <label for="number">Required number</label>
+                    </div>
+                    <div class="stock">
+                        <input type="number" id="stock" name="stock" required>
+                        <label for="stock">In stock</label>
+                    </div>
+                </div>
+                <button type="submit" name="request" onclick="getinfo()">Request</button>
+            </form>
+        </div>
+    </section>
+</body>
+
+</html>
