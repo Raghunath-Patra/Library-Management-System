@@ -105,8 +105,8 @@
                             $query_res1 = mysqli_query($connection,$query);
                             while ($row1 = mysqli_fetch_assoc($query_res1))
                             {
-                                //extended date calculator jo extended_date deta hai smaran ko bola hai vo bana raha hai ye
-                                $extended_date=2012-12-21;         //abhi k liye dala taki error na aaye
+                                $extended_date= $row1['duedate'];
+                                date_add($extended_date,$extend_d);
                                 $p = $row['points'] - $extend_d;
                                 $sql = "UPDATE users SET points=$p WHERE roll=$_SESSION[user_id]";
                                 mysqli_query($connection,$sql);
