@@ -86,8 +86,7 @@
             ?>
             <br>
             <?php
-            if ( ! empty($_GET['submit'])){
-                $extend_d = $_GET['submit'];
+                $extend_d = $_GET['num_days'];
                 if ($extend_d != 0)
                 {
                     $query = "select * from users where roll='$_SESSION[user_id]'";
@@ -96,8 +95,8 @@
                     {
                         if ($row['points'] < $extend_d )
                         {
-                            //idhar aisa kuch daalo ki points kum pad rahe hai exxtend karne k liye 
-                            echo "iske liye kuch karna baki hai";
+                            $flash_message = "Insufficient Coins\r\n"."You only have ".$row['points']." Coins...";
+                            echo format_flash_message($flash_message);
                         }
                         else 
                         {
@@ -120,17 +119,16 @@
                 }
                 // $query5 = "insert into issues values('$_SESSION[book_id]','$_SESSION[roll]','$comment','$t1')";
                 // mysqli_query($connection,$query5);
-            }
             ?>
             <b>Extend Due Date by
                 <form name='form' method='get' action="issue.php">
                     <div>
                         <div class="wrapper">
                             <span class="minus">-</span>
-                            <span class="num">00</span>
+                            <span class="num" id="num" name="num_days">00</span>
                             <span class="plus">+</span>
                         </div>
-                        <input type="submit" name="submit" id= "submit" value="Submit">  
+                        <input type="submit" name="submit" id="submit_date"value="Submit">  
                     </div>
                 </form>
             </b>
@@ -210,7 +208,11 @@
                 num.innerText = a;
             }
         });
-
+        let submit_date = document.querySelector("#submit_date");
+            submit_date.onclick = function(){
+                let num = document.querySelector("#num");
+                num.innerHTML = "00";
+            }
         let book_issue = document.querySelector("#issue_book");
         book_issue.addEventListener("click",()=>{
             let date_issue = document.querySelector("#issue_date"),
