@@ -1,6 +1,29 @@
 <?php
     session_start();
-        if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true && isset($_SESSION['book_id'])) {
+        // Function to update due date in session
+        function updateDueDate($increment) {
+            if (isset($_SESSION['due']) && strtotime($_SESSION['due'])) {
+                $due_timestamp = strtotime($_SESSION['due']);
+                $new_due_timestamp = strtotime("+$increment days", $due_timestamp);
+                $_SESSION['due'] = date("Y-m-d", $new_due_timestamp);
+                return true;
+            }
+            return false;
+        }
+    
+        // Handle form submission
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['increment'])) {
+            $increment = intval($_POST['increment']);
+            if (updateDueDate($increment)) {
+                echo $_SESSION['due'];
+            } else {
+                echo "Error: Unable to update due date.";
+            }
+            exit; // Exit to prevent further HTML rendering
+        }
+    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true && isset($_SESSION['book_id'])) {
+        $_SESSION['date'] = date("Y-m-d");
+        $_SESSION['due'] = date("Y-m-d");
         #$connection = new mysqli(server,username,password,database);
         $query_1 = "select * from books where id = '$_SESSION[book_id]'";
         $query_run = mysqli_query($connection,$query_1);
@@ -62,20 +85,18 @@
         </div>
         <hr>
         <div class="dates">
-            <b id="issue_date">Issue: 12/12/2012</b>
-            <b id="due_date">Due: 12/01/2013</b>
+            <b id="issue_date">Issue: <?php echo $_SESSION['date'] ?></b>
+            <b id="due_date">Due: <?php echo $_SESSION['due'] ?></b>
             <br>
             <b>Extend Due Date by
-                <form name='form' method='post' action="issue.php">
-                    <div>
-                        <div class="wrapper">
-                            <span class="minus">-</span>
-                            <span class="num">00</span>
-                            <span class="plus">+</span>
-                        </div>
-                        <input type="submit" name="submit" value="Submit">  
+                <div>
+                    <div class="wrapper">
+                        <span class="minus">-</span>
+                        <span class="num">00</span>
+                        <span class="plus">+</span>
                     </div>
-                </form>
+                    <button id="extend_date_by" onclick="changeDue()">Go</button>
+                </div>
             </b>
         </div>
         <div class="order">
@@ -111,12 +132,25 @@
                             if ($row["bookid"] == $_SESSION["book_id"])
                             {
                                 echo $row["roll"];
-                                echo $row["review"];
                                 echo "<br>";
                             } 
                         }
                     ?>    
                     </b>
+                    <p id="review_comment">
+                    <?php
+                        $query = "select * from reviews";
+                        $query_run = mysqli_query($connection,$query);
+                        while ($row = mysqli_fetch_assoc($query_run))
+                        {
+                            if ($row["bookid"] == $_SESSION["book_id"])
+                            {
+                                echo $row["review"];
+                                echo "<br>";
+                            } 
+                        }
+                    ?>
+                    </p>
                 </div>
 
             </div>
@@ -136,9 +170,11 @@
         </div>
     </section>
     <script>
+        const d = new Date();
         let plus = document.querySelector(".plus"),
         minus = document.querySelector(".minus"),
         num = document.querySelector(".num");
+        let due = document.getElementById("due_date");
         let a = 0;
         plus.addEventListener("click",()=>{
             a++;
@@ -152,16 +188,50 @@
                 num.innerText = a;
             }
         });
+        function changeDue() {
+            console.log("clicked");
+        }
+        function changeDue() {
+            const increment = parseInt(num.innerText);
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "issue.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // Update due date in the UI only after successful response
+                        due.innerText = "Due: " + xhr.responseText;
+                        console.log("Due date updated successfully");
+                    } else {
+                        console.error("Error: Unable to update due date");
+                    }
+                }
+            };
+            xhr.send("increment=" + increment);
+        }
 
-        let book_issue = document.querySelector("#issue_book");
-        book_issue.addEventListener("click",()=>{
-            let date_issue = document.querySelector("#issue_date"),
-                date_due = document.querySelector("#due_date");
-            let date1 = date_issue.innerText,
-                date2 = date_due.innerText;
-            let msg = date1 + "\n" + date2 +"\nAre you Sure ?";
-            confirm(msg);
+        document.addEventListener("DOMContentLoaded", function() {
+            const issueBookDiv = document.getElementById("issue_book");
+
+            issueBookDiv.addEventListener("click", function() {
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "handle_issue.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            console.log("Book issued successfully");
+                            window.location.href = "stu_dashboard.php";
+                            // Optionally, update UI or show a success message
+                        } else {
+                            console.error("Error issuing book");
+                        }
+                    }
+                };
+                xhr.send(); // Send the AJAX request
+            });
         });
     </script>
+
 </body>
 </html>
