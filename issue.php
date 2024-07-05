@@ -108,7 +108,7 @@
                 <h3>Add to Cart</h3>
             </div>
         </div>
-        <?php 
+        <?php
             
             if ( ! empty($_POST['comment'])){
                 $comment = $_POST['comment'];
@@ -122,8 +122,6 @@
         <div class="review_section">
             <h1><?php echo $reviews ?> Total Reviews</h1>
             <div class="review_box">
-                <div id="review">
-                    <b id="reviewer">
                     <?php
                         $query = "select * from reviews";
                         $query_run = mysqli_query($connection,$query);
@@ -131,40 +129,22 @@
                         {
                             if ($row["bookid"] == $_SESSION["book_id"])
                             {
-                                echo $row["roll"];
-                                echo "<br>";
+                                <div id="review">
+                                    <b id="reviewer">
+                                        echo $row["roll"];
+                                    </b>
+                                    <div id="review_comment">
+                                        echo $row["review"];
+                                    </div>
+                                </div>
                             } 
                         }
                     ?>    
-                    </b>
-                    <p id="review_comment">
-                    <?php
-                        $query = "select * from reviews";
-                        $query_run = mysqli_query($connection,$query);
-                        while ($row = mysqli_fetch_assoc($query_run))
-                        {
-                            if ($row["bookid"] == $_SESSION["book_id"])
-                            {
-                                echo $row["review"];
-                                echo "<br>";
-                            } 
-                        }
-                    ?>
-                    </p>
-                </div>
-
             </div>
             <div class="add_review">
-                <!-- <textarea name="comment" id="user_review" placeholder="Enter your input here..."></textarea>
-                <button type="submit">
-                    post >
-                </button> -->
                 <form name='form' method='post' action="issue.php">
-
-                Comment: <input type="text" name="comment" id="comment" placeholder="Enter your input here ..." ><br/>
-
+                <textarea name="comment" id="comment" placeholder="Enter your input here..."></textarea>
                 <input type="submit" name="submit" value="Submit">  
-                
                 </form>
             </div>
         </div>
