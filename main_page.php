@@ -89,6 +89,11 @@
                 <li><a href="#contact">Contact</a></li>
                 <li><a href="stu_dashboard.php">Me</a></li>
             </ul>
+            <div class="hamburger" id="nav_hamburger" onclick="toggleMenu()">
+                <div class="bar1" id="nav_hamburger"></div>
+                <div class="bar2" id="nav_hamburger"></div>
+                <div class="bar3" id="nav_hamburger"></div>
+            </div>
         </nav>
     </header>
     <section class="hero_section">
@@ -206,6 +211,27 @@
         <h5>Reach us at bla bla bla</h5>
         <h5>Copyright &copy; All rights reserved</h5>
     </footer>
+    <script>
+        let menuList = document.getElementById("menuList"),
+            toggle = document.getElementById("nav_hamburger");
+        menuList.style.maxHeight = "0px";
+        
+        function toggleMenu(){
+            if(menuList.style.maxHeight === "0px"){
+                toggle.classList.toggle("active");
+                menuList.style.maxHeight = "300px";
+            }
+            else{
+                menuList.style.maxHeight = "0px";
+                toggle.classList.toggle("active");
+            }
+        } 
+    document.onclick = function(e){
+        if(menuList.style.maxHeight !== "0px" && e.target.id !== "nav_hamburger"){
+            toggle.classList.toggle("active");
+            menuList.style.maxHeight = "0px";
+        }
+    }
+    </script>
 </body>
-
 </html>
