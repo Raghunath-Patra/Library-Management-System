@@ -1070,18 +1070,4 @@ input:focus {
   outline: 1.5px solid blue;
 }
 
-.request-container button {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  background-color: #007bff;
-  border-radius: 4px;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-}
 
-.request-container button:hover {
-  background-color: #0056b3;
-  border-radius: 9px;
-}

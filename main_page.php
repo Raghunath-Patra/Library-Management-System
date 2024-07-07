@@ -59,13 +59,11 @@
     <title>Home</title>
     <script>
         function redirectToIssue(bookId) {
-            // Set session variable using AJAX
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'set_book_session.php'); // Create set_book_session.php to handle session setting
+            xhr.open('POST', 'set_book_session.php');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onload = function() {
                 if (xhr.status === 200) {
-                    // Redirect to issue.php after setting session
                     window.location.href = 'issue.php';
                 } else {
                     alert('Unable to set book session.');
@@ -102,39 +100,41 @@
     </section>
     <div id="search_container" style="margin-top: 10px;">
         <div class="search">
-            <div class="drop_box">
-                <select name="Doc Type" id="doc_type">
-                    <option value="Document Type">Document Type</option>
-                    <option value="Books">Books</option>
-                    <option value="Audio Visual Material">Audio Visual Material</option>
-                    <option value="E-Books">E-Books</option>
-                    <option value="Periodical">Periodical</option>
-                </select>
-                <select name="Language" id="language">
-                    <option value="Language">Language</option>
-                    <option value="English">English</option>
-                    <option value="Hindi">Hindi</option>
-                    <option value="Kannada">Kannada</option>
-                    <option value="French">French</option>
-                    <option value="Russian">Russian</option>
-                    <option value="Japanese">Japanese</option>
-                </select>
-                <select name="Branch" id="branch">
-                    <option value="branch">Branch</option>
-                    <option value="cse">CSE</option>
-                    <option value="ece">ECE</option>
-                    <option value="ee">EE</option>
-                    <option value="mnc">MnC</option>
-                    <option value="me">ME</option>
-                    <option value="ch">CH</option>
-                    <option value="ce">CE</option>
-                    <option value="bsms">BS-MS</option>
-                </select>
-            </div>
-            <div id="search_bar">
-                <input type="search" id="search_input" placeholder="Search here..."/>
-                <a href="search.html" ><i class="fa-solid fa-magnifying-glass"></i></a>
-            </div>
+            <form id="search_form" method="GET" action="search_results.php">
+                <div class="drop_box">
+                    <select name="Doc Type" id="doc_type">
+                        <option value="Document Type">Document Type</option>
+                        <option value="Books">Books</option>
+                        <option value="Audio Visual Material">Audio Visual Material</option>
+                        <option value="E-Books">E-Books</option>
+                        <option value="Periodical">Periodical</option>
+                    </select>
+                    <select name="Language" id="language">
+                        <option value="Language">Language</option>
+                        <option value="English">English</option>
+                        <option value="Hindi">Hindi</option>
+                        <option value="Kannada">Kannada</option>
+                        <option value="French">French</option>
+                        <option value="Russian">Russian</option>
+                        <option value="Japanese">Japanese</option>
+                    </select>
+                    <select name="Branch" id="branch">
+                        <option value="branch">Branch</option>
+                        <option value="cse">CSE</option>
+                        <option value="ece">ECE</option>
+                        <option value="ee">EE</option>
+                        <option value="mnc">MnC</option>
+                        <option value="me">ME</option>
+                        <option value="ch">CH</option>
+                        <option value="ce">CE</option>
+                        <option value="bsms">BS-MS</option>
+                    </select>
+                </div>
+                <div id="search_bar">
+                    <input type="search" name= "search_input" id= "search_input" placeholder="Search here..."/>
+                    <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+            </form>
         </div>
     </div>
     <container class="suggestion" id="recommendation">

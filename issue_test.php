@@ -1,7 +1,7 @@
 <?php
     session_start();
         if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true && isset($_SESSION['book_id'])) {
-        $connection = new mysqli('localhost','root','','soi');
+        #$connection = new mysqli(server,username,password,database);
         $query_1 = "select * from books where id = '$_SESSION[book_id]'";
         $query_run = mysqli_query($connection,$query_1);
         while ($row = mysqli_fetch_assoc($query_run)){

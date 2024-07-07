@@ -1,6 +1,5 @@
 <?php
     session_start();
-        // Function to update due date in session
         function updateDueDate($increment) {
             if (isset($_SESSION['due']) && strtotime($_SESSION['due'])) {
                 $due_timestamp = strtotime($_SESSION['due']);
@@ -11,7 +10,6 @@
             return false;
         }
     
-        // Handle form submission
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['increment'])) {
             $increment = intval($_POST['increment']);
             if (updateDueDate($increment)) {
@@ -19,7 +17,17 @@
             } else {
                 echo "Error: Unable to update due date.";
             }
-            exit; // Exit to prevent further HTML rendering
+            exit;
+        }
+        if (!empty($_POST['comment'])) {
+            #$connection = new mysqli(server,username,password,database);
+            $comment = $_POST['comment'];
+            $t = time();
+            $t1 = date("Y-m-d", $t);
+            $query5 = "insert into reviews values('$_SESSION[book_id]','$_SESSION[roll]','$comment','$t1')";
+            mysqli_query($connection, $query5);
+            header("Location: issue.php");
+            exit;
         }
     if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true && isset($_SESSION['book_id'])) {
         $_SESSION['date'] = date("Y-m-d");
@@ -108,17 +116,6 @@
                 <h3>Add to Cart</h3>
             </div>
         </div>
-        <?php
-            
-            if ( ! empty($_POST['comment'])){
-                $comment = $_POST['comment'];
-                $t = time();
-                $t1 = date("Y-m-d",$t);
-                $query5 = "insert into reviews values('$_SESSION[book_id]','$_SESSION[roll]','$comment','$t1')";
-                mysqli_query($connection,$query5);
-            }
-            
-        ?>
         <div class="review_section">
             <h1><?php echo $reviews ?> Total Reviews</h1>
             <div class="review_box">
@@ -129,14 +126,14 @@
                         {
                             if ($row["bookid"] == $_SESSION["book_id"])
                             {
-                                <div id="review">
-                                    <b id="reviewer">
-                                        echo $row["roll"];
+                                echo "<div id=\"review\">
+                                    <b id=\"reviewer\">
+                                        $row[roll]
                                     </b>
-                                    <div id="review_comment">
-                                        echo $row["review"];
+                                    <div id=\"review_comment\">
+                                        $row[review]
                                     </div>
-                                </div>
+                                </div>";
                             } 
                         }
                     ?>    
@@ -179,7 +176,6 @@
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (xhr.status === 200) {
-                        // Update due date in the UI only after successful response
                         due.innerText = "Due: " + xhr.responseText;
                         console.log("Due date updated successfully");
                     } else {
@@ -202,13 +198,12 @@
                         if (xhr.status === 200) {
                             console.log("Book issued successfully");
                             window.location.href = "stu_dashboard.php";
-                            // Optionally, update UI or show a success message
                         } else {
                             console.error("Error issuing book");
                         }
                     }
                 };
-                xhr.send(); // Send the AJAX request
+                xhr.send();
             });
         });
     </script>
