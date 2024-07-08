@@ -8,7 +8,7 @@ use database SOI;
 
 #To create table users
 CREATE TABLE `users`(
-  `roll` INT PRIMARY KEY,
+  `roll` CHAR(9) PRIMARY KEY,
   `name` VARCHAR(1024),
   `password` VARCHAR(1024) NOT NULL,
   `mobile` BIGINT NOT NULL,
