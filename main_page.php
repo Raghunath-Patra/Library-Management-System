@@ -25,7 +25,7 @@
         while($row = $result_2->fetch_assoc())
         {
             $html[$iter] = "<div id=\"book".$iter."\" class=\"books\" onclick=\"redirectToIssue('".$row['id']."')\">
-                                <img id=\"book_img_1\" class=\"book_img\"
+                                <img id=\"book_img\" class=\"book_img\"
                                 src=\"https://openclipart.org/image/2400px/svg_to_png/204361/1415799000.png\" alt=\"Book\">
                                 <div class=\"book_description\">
                                     <h2>".$row["title"]."</h2>
@@ -79,11 +79,11 @@
     <header>
         <nav>
             <img src="logo.jpg">
-            <ul>
+            <ul id="menuList" class="nav_items">
                 <li><a href="#institute_img">Home</a></li>
-                <li><a href="#search_container">Search</a></li>
+                <li><a href="#about_institute">About</a></li>
+                <li><a href="#welcome">Search</a></li>
                 <li><a href="#recommendation">For You</a></li>
-                <li><a href="#e_books">E-Books</a></li>
                 <li><a href="#contact">Contact</a></li>
                 <li><a href="stu_dashboard.php">Me</a></li>
             </ul>
@@ -96,11 +96,21 @@
     </header>
     <section class="hero_section">
         <img id="institute_img" src="hero_img.jpg" alt="institute_img">
-
+        <div class="about_institute" id="about_institute">
+            <h2>ABOUT JD UNIVERSITY</h2>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                Consectetur aliquam dolores nam nihil aperiam repudiandae tempore 
+                cupiditate. Perferendis maiores iure, temporibus quasi numquam ipsa 
+                sequi debitis omnis quis optio saepe.
+            </p>
+        </div>
     </section>
+    <div class="welcome" id="welcome">
+        <h2 style="padding-top: 5px;" >Welcome To JD's Library</h2>
+    </div>
     <div id="search_container" style="margin-top: 10px;">
-        <div class="search">
-            <form id="search_form" method="GET" action="search_results.php">
+            <form class="search" id="search_form" method="GET" action="search_results.php">
                 <div class="drop_box">
                     <select name="Doc Type" id="doc_type">
                         <option value="Document Type">Document Type</option>
@@ -132,10 +142,9 @@
                 </div>
                 <div id="search_bar">
                     <input type="search" name= "search_input" id= "search_input" placeholder="Search here..."/>
-                    <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <button id="search_button" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </div>
             </form>
-        </div>
     </div>
     <container class="suggestion" id="recommendation">
         <h2 style="padding: 7px;">
@@ -148,50 +157,6 @@
                     echo $book;
                 } 
             ?>
-        </div>
-        <h2 style="padding: 5px;">
-            Some E-Books
-        </h2>
-        <div class="e-books" id="e_books">
-            <div id="ebook1" class="books">
-                <div id="book_img_1" class="book_img"></div>
-                <div class="book_description">
-                    <h2>Name Of The Book</h2>
-                    <h3>Author of The Book</h3>
-                    <div class="like_n_review">
-                        <div class="likes">
-                            <i class="fa-regular fa-heart">23</i>
-                        </div>
-                        <h4>2 Reviews</h4>
-                    </div>
-                </div>
-            </div>
-            <div id="ebook2" class="books">
-                <div id="book_img_1" class="book_img"></div>
-                <div class="book_description">
-                    <h2>Name Of The Book</h2>
-                    <h3>Author of The Book</h3>
-                    <div class="like_n_review">
-                        <div class="likes">
-                            <i class="fa-regular fa-heart">23</i>
-                        </div>
-                        <h4>2 Reviews</h4>
-                    </div>
-                </div>
-            </div>
-            <div id="ebook3" class="books">
-                <div id="book_img_1" class="book_img"></div>
-                <div class="book_description">
-                    <h2>Name Of The Book</h2>
-                    <h3>Author of The Book</h3>
-                    <div class="like_n_review">
-                        <div class="likes">
-                            <i class="fa-regular fa-heart">23</i>
-                        </div>
-                        <h4>2 Reviews</h4>
-                    </div>
-                </div>
-            </div>
         </div>
     </container>
     <footer id="contact">
