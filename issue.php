@@ -1,5 +1,48 @@
 <?php
     session_start();
+    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true && isset($_SESSION['book_id'])) {
+        $_SESSION['date'] = date("Y-m-d");
+        $_SESSION['due'] = date("Y-m-d");
+        $due_timestamp = strtotime($_SESSION['due']);
+        $new_due_timestamp = strtotime("+30 days", $due_timestamp);
+        $_SESSION['due'] = date("Y-m-d", $new_due_timestamp);
+        #$connection = new mysqli(server,username,password,database);
+        $query_1 = "select * from books where id = '$_SESSION[book_id]'";
+        $query_run = mysqli_query($connection,$query_1);
+        while ($row = mysqli_fetch_assoc($query_run)){
+            $title = $row['title'];
+            $author = $row['author'];
+            $description = $row['description'];
+            $genre = $row['genre'];
+            $department = $row['department'];
+            $vendor = $row['vendor'];
+            $publisher = $row['publisher'];
+        }
+        
+        $query_2 = "select COUNT(*) from reviews WHERE bookid = '$_SESSION[book_id]'";
+        $query_run = mysqli_query($connection,$query_2);
+        while($row = mysqli_fetch_assoc($query_run)){
+            $reviews = $row["COUNT(*)"];
+        }
+        $query_3 = "select COUNT(*) from likes WHERE bookid = '$_SESSION[book_id]'";
+        $query_run = mysqli_query($connection,$query_3);
+        while($row = mysqli_fetch_assoc($query_run)){
+            $likes = $row["COUNT(*)"];
+        }
+        $query_4 = "select * from users WHERE roll = '$_SESSION[roll]'";
+        $query_run = mysqli_query($connection,$query_4);
+        while ($row = mysqli_fetch_assoc($query_run)){
+            $points = $row['points'];
+        }
+        $query_6 = "select * from likes WHERE bookid = '$_SESSION[book_id]'";
+        $query_run = mysqli_query($connection,$query_6);
+        while ($row = mysqli_fetch_assoc($query_run)){
+            $points = $row['points'];
+        }
+    }
+    else{
+        header("Location:logout.php");
+    }
         function updateDueDate($increment) {
             if (isset($_SESSION['due']) && strtotime($_SESSION['due'])) {
                 $due_timestamp = strtotime($_SESSION['due']);
@@ -12,10 +55,18 @@
     
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['increment'])) {
             $increment = intval($_POST['increment']);
-            if (updateDueDate($increment)) {
+            if($points < $increment){
                 echo $_SESSION['due'];
+                $extend_msg = "\nInsufficient points!";
+                echo $extend_msg;
+            }
+            else if (updateDueDate($increment)) {
+                echo $_SESSION['due'];
+                $extend_msg = "\nExtended by $increment days";
+                echo $extend_msg;
             } else {
-                echo "Error: Unable to update due date.";
+                $extend_msg = "Error: Unable to update due date.";
+                echo $extend_msg;
             }
             exit;
         }
@@ -29,35 +80,7 @@
             header("Location: issue.php");
             exit;
         }
-    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true && isset($_SESSION['book_id'])) {
-        $_SESSION['date'] = date("Y-m-d");
-        $_SESSION['due'] = date("Y-m-d");
-        #$connection = new mysqli(server,username,password,database);
-        $query_1 = "select * from books where id = '$_SESSION[book_id]'";
-        $query_run = mysqli_query($connection,$query_1);
-        while ($row = mysqli_fetch_assoc($query_run)){
-            $title = $row['title'];
-            $author = $row['author'];
-            $description = $row['description'];
-            $genre = $row['genre'];
-            $department = $row['department'];
-            $vendor = $row['vendor'];
-            $publisher = $row['publisher'];
-        }
-        $query_2 = "select COUNT(*) from reviews WHERE bookid = '$_SESSION[book_id]'";
-        $query_run = mysqli_query($connection,$query_2);
-        while($row = mysqli_fetch_assoc($query_run)){
-            $reviews = $row["COUNT(*)"];
-        }
-        $query_3 = "select COUNT(*) from likes WHERE bookid = '$_SESSION[book_id]'";
-        $query_run = mysqli_query($connection,$query_2);
-        while($row = mysqli_fetch_assoc($query_run)){
-            $likes = $row["COUNT(*)"];
-        }
-    }
-    else{
-        header("Location:logout.php");
-    }
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -74,9 +97,10 @@
     <a href="javascript:history.back()" style="text-decoration: none; color:black; margin: 10px;">Go Back</a>
     <div id="book_container">
             <div class="likes">
-                <i class="fa-regular fa-heart"><?php echo $likes ?></i>
+                <i class="fa-regular fa-heart" id="like_icon"></i>
+                <h3><?php echo $likes ?></h3>
             </div>
-            <img id="book_img_1" class="img_n_likes" src="https://openclipart.org/image/2400px/svg_to_png/204361/1415799000.png" alt="Book">
+            <img id="book_img" class="img_n_likes" src="https://openclipart.org/image/2400px/svg_to_png/204361/1415799000.png" alt="Book">
     </div>
     <section class="book_details">
         <div class="description_of_book">
@@ -96,7 +120,9 @@
             <b id="issue_date">Issue: <?php echo $_SESSION['date'] ?></b>
             <b id="due_date">Due: <?php echo $_SESSION['due'] ?></b>
             <br>
-            <b>Extend Due Date by
+            <b>
+                You have <?php echo $points ?> points
+                <div>Extend Due date by:</div>
                 <div>
                     <div class="wrapper">
                         <span class="minus">-</span>
@@ -165,9 +191,7 @@
                 num.innerText = a;
             }
         });
-        function changeDue() {
-            console.log("clicked");
-        }
+        
         function changeDue() {
             const increment = parseInt(num.innerText);
             const xhr = new XMLHttpRequest();
@@ -195,11 +219,11 @@
                 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
-                        if (xhr.status === 200) {
-                            console.log("Book issued successfully");
+                        if(xhr.status === 200){
+                            window.alert("Book issued Successfully!");
                             window.location.href = "stu_dashboard.php";
-                        } else {
-                            console.error("Error issuing book");
+                        }else {
+                            window.alert("Error issuing book");
                         }
                     }
                 };
