@@ -34,8 +34,7 @@
 <body>
     <a href="javascript:history.back()" style="text-decoration: none; color:black; margin: 10px;">Go Back</a>
     <div id="search_container" style="margin-top: 10px;">
-        <div class="search">
-            <form id="search_form" method="GET" action="search_results.php">
+            <form class="search" id="search_form" method="GET" action="search_results.php">
                 <div class="drop_box">
                     <select name="Doc Type" id="doc_type">
                         <option value="Document Type">Document Type</option>
@@ -68,10 +67,9 @@
                 </div>
                 <div id="search_bar">
                     <input type="search" name= "search_input" id= "search_input" placeholder="Search here..."/>
-                    <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <button id="search_button" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </div>
-            </form>
-        </div>
+         </form>
     </div>
     <div style="display: flex; margin: 2vw;">
         <div class="filter_container" id="filter_container">
@@ -127,6 +125,7 @@
         </div>
         <div class="resultant_books">
             <?php echo $_SESSION["search"]?>
+
         </div>
     </div>
 </div>
