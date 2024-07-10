@@ -66,23 +66,23 @@
                 <h2>OverFlow</h2>
                 <div id="dash_opts">
                     <div>
-                        <i class="fa-solid fa-user"></i>
+                        <i class="fa-solid fa-house"></i>
                         <a href="main_page.php" class="dash_link">Explore</a>
                     </div>
                     <div>
-                        <i class="fa-solid fa-user"></i>
+                        <i class="fa-solid fa-clipboard"></i>
                         <a href="#your_record" class="dash_link">Your Record</a>
                     </div>
                     <div>
-                        <i class="fa-solid fa-user"></i>
+                        <i class="fa-solid fa-lock"></i>
                         <a href="change_password.php" class="dash_link">Change Password</a>
                     </div>
                     <div>
-                        <i class="fa-solid fa-user"></i>
+                        <i class="fa-solid fa-book"></i>
                         <a href="request.html" class="dash_link">Request a book</a>
                     </div>
                     <div>
-                        <i class="fa-solid fa-user"></i>
+                        <i class="fa-solid fa-right-to-bracket"></i>
                         <a href="logout.php" class="dash_link">Log out</a>
                     </div>
                 </div>
