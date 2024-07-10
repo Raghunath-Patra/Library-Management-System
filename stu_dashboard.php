@@ -52,94 +52,88 @@
 </head>
 
 <body>
-    <section class="dash">
-        <div class="options">
-            <h3>OverFlow</h3>
-            <div id="nav_opts">
-                <div>
-                    <i class="fa-solid fa-user"></i>
-                    <a href="#dashboard" class="dash_link">Dashboard</a>
-                </div>
-                <div>
-                    <i class="fa-solid fa-user"></i>
-                    <a href="main_page.php" class="dash_link" target="_blank">Explore</a>
-                </div>
-                <div>
-                    <i class="fa-solid fa-user"></i>
-                    <a href="#reviews" class="dash_link">Reviews</a>
-                </div>
-                <div>
-                    <i class="fa-solid fa-user"></i>
-                    <a href="request.html" class="dash_link">Request a book</a>
-                </div>
-                <div>
-                    <i class="fa-solid fa-user"></i>
-                    <a href="logout.php" class="dash_link">Log out</a>
+    <div class="nav_logo">
+        <div class="hamburger" id="stu_hamburger" onclick="toggleMenu()">
+            <div class="bar1" id="stu_hamburger"></div>
+            <div class="bar2" id="stu_hamburger"></div>
+            <div class="bar3" id="stu_hamburger"></div>
+        </div>
+        <img src="logo.jpg" alt="Logo">
+    </div>
+    <div class="dash">
+        <div class="options" id="toggle_option">
+            <div class="toggle_option">
+                <h2>OverFlow</h2>
+                <div id="dash_opts">
+                    <div>
+                        <i class="fa-solid fa-user"></i>
+                        <a href="main_page.php" class="dash_link">Explore</a>
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-user"></i>
+                        <a href="#your_record" class="dash_link">Your Record</a>
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-user"></i>
+                        <a href="change_password.php" class="dash_link">Change Password</a>
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-user"></i>
+                        <a href="request.html" class="dash_link">Request a book</a>
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-user"></i>
+                        <a href="logout.php" class="dash_link">Log out</a>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <div id="user_details" class="user_details">
-            <div id="user_img">
-                <i class="fa-solid fa-user" style="font-size: 120px;"></i>
+        <div class="user_data">
+            <div id="user_details">
+                <div id="user_img">
+                    <i class="fa-solid fa-user" id="user_img_icon"></i>
+                </div>
+                <div id="user_contact">
+                    <h2>
+                        <?php echo $_SESSION["name"]?>
+                    </h2>
+                    <p>
+                        roll:
+                        <?php echo $_SESSION["roll"]; ?><br>
+                        email:
+                        <?php echo $_SESSION["roll"].$domain; ?><br>
+                        contact no:
+                        <?php echo $mobile?>
+                    </p>
+                </div>
             </div>
-            <div id="user_contact">
-                <h2>
-                    <?php echo $_SESSION["name"]?>
-                </h2>
-                <p>
-                    roll:
-                    <?php echo $_SESSION["roll"]; ?><br>
-                    email:
-                    <?php echo $_SESSION["roll"].$domain; ?><br>
-                    contact no:
-                    <?php echo $mobile?>
+
+            <div class="points">
+                <h2>Your Points</h2>
+                <div id="score">
+                    <div id="coin">
+                        <h3>JD</h3>
+                    </div>
+                </div>
+                <h1><?php echo $points ?></h1>
+            </div>
+
+            <div id="notice">
+                <h2>Notifications</h2>
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
+                    Dolorum sed quasi eaque, harum esse reprehenderit
+                     voluptatibus, sunt animi nisi, omnis pos
                 </p>
             </div>
         </div>
-
-        <div class="points">
-            <h2>Your Points</h2>
-            <div id="score">
-                <div id="coin">
-                    <h3>JD</h3>
-                </div>
-            </div>
-            <!-- <h1><?php echo $points ?></h1> -->
-        </div>
-
-        <div id="how_to_earn_points" class="issue_bar">
-            <h1>Notifications</h1>
-            <h2>Yeha pe notifications hogne</h2>
-        </div>
-
-        <div class="activity">
-                <div class="graphic">
-              
-                  <div class="row">
-                    <div class="chart">
-                      <span class="block" title="On time">
-                         <span class="value">57%</span>
-                      </span>
-                      <span class="block" title="Delayed">
-                         <span class="value">43%</span>
-                      </span>
-                    </div>
-                  </div>
-              
-                </div>
-              
-                  <ul class="legend">
-                    <li>On time</li>
-                    <li>Delayed</li>
-                  </ul>
-        </div>
-
-        <div class="lib_record">
-            <div id="any">
-                <h2>YOUR RECORDS</h2>
-                <hr>
-                <div id="table-container"></div>
+    </div>
+    <div class="your_record" id="your_record">
+        <h2>YOUR RECORDS</h2>
+        <hr>
+    </div>
+    <div class="lib_record">
+        <div class="records">
+            <div id="table-container">
                 <table id="booksTable">
                     <thead>
                         <tr>
@@ -149,21 +143,44 @@
                             <th>Due Date</th>
                             <th>Returned</th>
                         </tr>
-                        <tr>
-                            <th>Introduction to Algorithm</th>
-                            <th>Thomas H. Comen, Chaleres E. Leiserson, Ronald L Rivest, Cliifford Stein</th>
-                            <th>2024-06-30</th>
-                            <th>2024-07-05</th>
-                            <th>No</th>
-                        </tr>
                     </thead>
                     <tbody>
-                        <!-- <?php echo $html ?> -->
+                        <?php echo $html ?>
                     </tbody>
                 </table>
             </div>
         </div>
-    </section>
+    </div>
+    <script>
+        let toggle_option = document.getElementById("toggle_option"),
+        toggle = document.getElementById("stu_hamburger");
+        toggle_option.style.maxWidth = "0px";
+    function toggleMenu(){
+        toggle.classList.toggle("active");
+        if(toggle_option.style.maxWidth === "0px"){
+            toggle_option.style.maxWidth = "300px";
+        }
+        else{
+            toggle_option.style.maxWidth = "0px";
+        }
+    } 
+    document.onclick = function(e){
+        let width = window.innerWidth;
+        if(width < 600 && toggle_option.style.maxWidth !== "0px" && e.target.id !== "stu_hamburger"){
+            toggle.classList.toggle("active");
+            toggle_option.style.maxWidth = "0px";
+        }
+    }
+    function handleResize(){
+        let windowWidth = window.innerWidth;
+        if(windowWidth > 600 && toggle_option.style.maxWidth === "0px"){
+            toggle.classList.toggle("active");
+            toggle_option.style.maxWidth = "300px"
+        }
+    }
+    handleResize();
+    window.addEventListener("resize",handleResize);
+    
+    </script>
 </body>
-
 </html>
