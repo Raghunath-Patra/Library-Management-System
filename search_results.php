@@ -36,7 +36,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
 
     while ($row = $result->fetch_assoc()) {
         $html[$iter] = "<div id=\"book" . $iter . "\" class=\"books\" onclick=\"redirectToIssue('" . $row['id'] . "')\">
-                            <img id=\"book_img_1\" class=\"book_img\"
+                            <img id=\"book_img\" class=\"book_img\"
                             src=\"https://openclipart.org/image/2400px/svg_to_png/204361/1415799000.png\" alt=\"Book\">
                             <div class=\"book_description\">
                                 <h2>" . $row["title"] . "</h2>
