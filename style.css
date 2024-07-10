@@ -181,7 +181,7 @@ margin-bottom: 15px;
 .dash #dash_opts div i{
 width:10px;
 height: 10px;
-padding-right: 10px;
+padding-right: 15px;
 display: flex;
 justify-content: center;
 align-items: center;
@@ -460,7 +460,6 @@ nav li a {
 }
 @media only screen and (max-width:975px){
   .hero_section .about_institute{
-    background-color: #45B29D;
     width:100%;
     justify-content: center;
   }
@@ -553,6 +552,9 @@ nav li a {
     max-width: 30vh;
     max-height: 35vh;
   }
+  .hero_section .about_institute{
+    font-size: small;
+  }
 }
 @media only screen and (max-width:450px){
   .books {
@@ -564,6 +566,9 @@ nav li a {
     max-height: 30vh;
   }
   .hero_section .about_institute{
+    font-size: x-small;
+  }
+  .hero_section .about_institute p{
     font-size: small;
   }
 }
@@ -691,10 +696,9 @@ footer {
   border-left: 1px solid #8b8d8c;
   pointer-events: none;
 }
-.book_details .dates #issue_date{
+.book_details .dates #due_date{
   width:100%;
   text-align: center;
-  background-color: #0056b3;
 }
 .dates b div {
   display: flex;
