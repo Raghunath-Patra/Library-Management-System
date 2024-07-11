@@ -263,11 +263,22 @@
                 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
-                        if(xhr.status === 200){
-                            window.alert("Book issued Successfully!");
-                            window.location.href = "stu_dashboard.php";
-                        }else {
-                            window.alert("Error issuing book");
+                        if (xhr.status === 200) {
+                            try {
+                                const response = JSON.parse(xhr.responseText);
+                                if (response.status === "success") {
+                                    alert("Book issued successfully!");
+                                    window.location.href = "stu_dashboard.php";
+                                } else {
+                                    alert("Error: " + response.message);
+                                }
+                            } catch (e) {
+                                console.error("Error parsing JSON response: ", e);
+                                alert("Unexpected error occurred.");
+                            }
+                        } else {
+                            console.error("XHR request failed with status: ", xhr.status);
+                            alert("Error issuing book.");
                         }
                     }
                 };
