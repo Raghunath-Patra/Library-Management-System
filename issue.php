@@ -34,15 +34,51 @@
         while ($row = mysqli_fetch_assoc($query_run)){
             $points = $row['points'];
         }
-        $query_6 = "select * from likes WHERE bookid = '$_SESSION[book_id]'";
-        $query_run = mysqli_query($connection,$query_6);
-        while ($row = mysqli_fetch_assoc($query_run)){
-            $points = $row['points'];
-        }
+        
     }
     else{
         header("Location:logout.php");
+    }   
+        function userLiked(){
+            $query_6 = "select * from likes WHERE bookid = '$_SESSION[book_id]' AND roll = '$_SESSION[roll]'";
+            global $connection;
+            $query_run = mysqli_query($connection,$query_6);
+            if(mysqli_num_rows($query_run) > 0){
+                    return true;
+            }
+            else{
+                return false;
+            }
+        }
+    if(isset($_POST['action'])){
+        header('Content-Type: application/json');
+        $bookid = $_POST['book_id'];
+        $action = $_POST['action'];
+        $t = time();
+        $t1 = date("Y-m-d",$t);
+        if($action == "like"){
+            $query_9 = "INSERT INTO likes (bookid, roll, timestamp) VALUES ('$_SESSION[book_id]', '$_SESSION[roll]', '$t1')";
+            echo "like";
+        }
+        else if($action == "unlike"){
+            echo "unlike";
+            $query_9 = "DELETE FROM likes WHERE bookid = '$bookid' AND roll = '$_SESSION[roll]'";
+        }
+        global $connection;
+        mysqli_query($connection,$query_9);
+        echo getRating($bookid);
+        echo json_encode(getRating($bookid));
+        exit(0);
     }
+        function getRating($id){
+            global $connection;
+            $rating = array();
+            $likes_q = "select COUNT(*) from likes WHERE bookid = '$_SESSION[book_id]'";
+            $likes_res = mysqli_query($connection,$likes_q);
+            $likes = mysqli_fetch_array($likes_res);
+            $rating = ['likes' => $likes[0]];
+            return json_encode($rating);
+        }
         function updateDueDate($increment) {
             if (isset($_SESSION['due']) && strtotime($_SESSION['due'])) {
                 $due_timestamp = strtotime($_SESSION['due']);
@@ -92,13 +128,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
     <a href="javascript:history.back()" style="text-decoration: none; color:black; margin: 10px;">Go Back</a>
     <div id="book_container">
             <div class="likes">
-                <i class="fa-regular fa-heart" id="like_icon"></i>
-                <h3><?php echo $likes ?></h3>
+                <i <?php if(userLiked()) : ?>
+                        class="fa-regular fa-heart like_icon"
+                    <?php else: ?>
+                        class="fa-solid fa-lock like_icon"
+                    <?php endif ?>
+                        data-id="<?php echo $_SESSION['book_id']?>"></i>
+                <h3 id = "like_count"><?php echo $likes ?></h3>
             </div>
             <img id="book_img" class="img_n_likes" src="https://openclipart.org/image/2400px/svg_to_png/204361/1415799000.png" alt="Book">
     </div>
@@ -179,6 +221,7 @@
         num = document.querySelector(".num");
         let due = document.getElementById("due_date");
         let a = 0;
+        let likes = document.getElementById("like_count").innerHTML;
         plus.addEventListener("click",()=>{
             a++;
             a = (a<10) ? "0"+a : a;
@@ -228,6 +271,46 @@
                     }
                 };
                 xhr.send();
+            });
+        });
+
+        $(document).ready (function(){
+            $('.like_icon').on('click',function(){
+                var book_id = $(this).data('id');
+                $clicked_btn = $(this);
+                if($clicked_btn.hasClass('fa-solid fa-lock')){
+                    action = 'like';
+                    $clicked_btn.removeClass('fa-solid fa-lock');
+                    $clicked_btn.addClass('fa-regular fa-heart');
+                    likes = (parseInt(likes)+1).toString();
+                    document.getElementById("like_count").innerHTML = likes;
+                }
+                else if($clicked_btn.hasClass('fa-regular fa-heart')){
+                    action = 'unlike';
+                    $clicked_btn.removeClass('fa-regular fa-heart');
+                    $clicked_btn.addClass('fa-solid fa-lock');
+                    likes = (parseInt(likes)-1).toString();
+                    document.getElementById("like_count").innerHTML = likes;
+                }
+                $.ajax({
+                    url: 'issue.php',
+                    type: 'post',
+                    data: {
+                        'action': action,
+                        'book_id': book_id
+                    },
+                    success: function(data){
+                        res = JSON.parse(data);
+                        if(action == "like"){
+                            $clicked_btn.removeClass('fa-solid fa-lock');
+                            $clicked_btn.addClass('fa-regular fa-heart');
+                        }
+                        else if(action == "unlike"){
+                            $clicked_btn.removeClass('fa-regular fa-heart');
+                            $clicked_btn.addClass('fa-solid fa-lock');
+                        }
+                    }
+                });
             });
         });
     </script>
