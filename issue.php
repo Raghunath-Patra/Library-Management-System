@@ -32,7 +32,7 @@
         $query_4 = "select * from users WHERE roll = '$_SESSION[roll]'";
         $query_run = mysqli_query($connection,$query_4);
         while ($row = mysqli_fetch_assoc($query_run)){
-            $points = $row['points'];
+            $_SESSION["points"] = $row['points'];
         }
         
     }
@@ -91,7 +91,8 @@
     
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['increment'])) {
             $increment = intval($_POST['increment']);
-            if($points < $increment){
+            $_SESSION['increment'] = $increment;
+            if($_SESSION["points"] < $increment){
                 echo $_SESSION['due'];
                 $extend_msg = "\nInsufficient points!";
                 echo $extend_msg;
@@ -163,7 +164,7 @@
             <b id="due_date">Due: <?php echo $_SESSION['due'] ?></b>
             <br>
             <b>
-                You have <?php echo $points ?> points
+                You have <?php echo $_SESSION["points"] ?> points
                 <div>Extend Due date by:</div>
                 <div>
                     <div class="wrapper">
