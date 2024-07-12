@@ -16,7 +16,7 @@
         while ($row = mysqli_fetch_assoc($query_run)){
             $records = $row["COUNT(*)"];
         } 
-        $query_3 = "select title,author,issuedate,duedate,returned from issues,books where books.id = issues.bookid AND roll ='$_SESSION[roll]' ORDER BY issuedate ";
+        $query_3 = "select title,author,issuedate,duedate,returned from issues,books where books.id = issues.bookid AND roll ='$_SESSION[roll]' ORDER BY issuedate DESC";
         $result = mysqli_query($connection,$query_3);
         $html = "";
         if ($result->num_rows > 0) {
