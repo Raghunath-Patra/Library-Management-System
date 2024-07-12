@@ -21,7 +21,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
         $query .= " AND (b.title LIKE '%$search_input%' OR b.author LIKE '%$search_input%')";
     }
 
-    $query .= "ORDER BY like_count DESC";
+    $query .= " ORDER BY like_count DESC";
 
     $result = mysqli_query($connection, $query);
     $count = $result->num_rows;
