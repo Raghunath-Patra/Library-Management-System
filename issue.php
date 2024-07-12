@@ -286,6 +286,7 @@
             });
         });
 
+
         $(document).ready (function(){
             $('.like_icon').on('click',function(){
                 var book_id = $(this).data('id');

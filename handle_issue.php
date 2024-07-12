@@ -1,11 +1,13 @@
 <?php
 session_start();
+header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     #$connection = new mysqli(server,username,password,database);
 
     if ($connection->connect_error) {
-        die("Connection failed: " . $connection->connect_error);
+        echo json_encode(array("status" => "error", "message" => "Connection failed: " . $connection->connect_error));
+        exit;
     }
 
     try {
@@ -16,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $due_date = $_SESSION['due'];
             $returned = 0;
 
+            // Check if the entry already exists
             $check_query = "SELECT * FROM issues WHERE bookid = '$book_id' AND roll = '$roll'";
             $check_result = $connection->query($check_query);
 
@@ -24,13 +27,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             $insert_query = "INSERT INTO issues (bookid, roll, issuedate, duedate, returned) VALUES ('$book_id', '$roll', '$issue_date', '$due_date', '$returned')";
-            if ($connection->query($insert_query) === TRUE) {
-                $new_points = $_SESSION["points"] - intval($_SESSION["increment"]);
-                $update_points_query = "UPDATE users SET points = $new_points WHERE roll = '$_SESSION[roll]'";
-                if ($connection->query($update_points_query) === TRUE) {
+            if ($connection->query($insert_query) === TRUE) {        
+                if(isset($_SESSION["increment"]))
+                {
+                    $new_points = $_SESSION["points"] - intval($_SESSION["increment"]);
+                    $update_points_query = "UPDATE users SET points = $new_points WHERE roll = '$_SESSION[roll]'";
+                    if ($connection->query($update_points_query) === TRUE) {
+                        echo json_encode(array("status" => "success"));
+                    } else {
+                        throw new Exception("Failed to deduct points.");
+                    }
+                }
+                else{
                     echo json_encode(array("status" => "success"));
-                } else {
-                    throw new Exception("Failed to deduct points.");
                 }
             } else {
                 throw new Exception("Failed to issue book.");
@@ -43,6 +52,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $connection->close();
+    exit;
+} else {
+    echo json_encode(array("status" => "error", "message" => "Invalid request method."));
     exit;
 }
 ?>
