@@ -12,7 +12,7 @@ CREATE TABLE `users`(
   `name` VARCHAR(1024),
   `password` VARCHAR(1024) NOT NULL,
   `mobile` BIGINT NOT NULL,
-  `points` INT DEFAULT 0
+  `points` INT DEFAULT 100
 );
 
 # Insert sample values into users.
@@ -184,6 +184,7 @@ CREATE TABLE `likes` (
   `bookid` INT NOT NULL,
   `roll` CHAR(9) NOT NULL UNIQUE,
   `timestamp` TIMESTAMP NOT NULL
+  CONSTRAINT PRIMARY KEY (roll,bookid)
 );
 
 
