@@ -6,20 +6,14 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
     $language = isset($_GET['language']) ? $_GET['language'] : '';
     $branch = isset($_GET['Branch']) ? $_GET['Branch'] : '';
     $search_input = isset($_GET['search_input']) ? $_GET['search_input'] : '';
-    $dept = array("cse"=>"Computer Science","me"=>"Mechanical Engineering","ee"=>"Electrical Engineering","ce"=>"Civil Engineering","ch"=>"Chemical Engineering","ep"=>"Engineering Physics","mnc"=>"Maths and Computing","bsms"=>"Interdisciplinary Sciences");
+    $dept = array("cse" => "Computer Science", "me" => "Mechanical Engineering", "ee" => "Electrical Engineering", "ce" => "Civil Engineering", "ch" => "Chemical Engineering", "ep" => "Engineering Physics", "mnc" => "Maths and Computing", "bsms" => "Interdisciplinary Sciences");
 
-    $query = "SELECT b.id, b.title, b.author, b.department, COUNT(l.bookid) AS like_count, COUNT(r.bookid) AS review_count
+    $query = "SELECT b.id, b.title, b.author, b.department, b.genre, b.publisher, COALESCE(l.like_count, 0) AS like_count, COALESCE(r.review_count, 0) AS review_count
               FROM books b 
-              LEFT JOIN likes l ON b.id = l.bookid 
-              LEFT JOIN reviews r ON b.id = r.bookid 
+              LEFT JOIN (SELECT bookid, COUNT(*) AS like_count FROM likes GROUP BY bookid) l ON b.id = l.bookid
+              LEFT JOIN (SELECT bookid, COUNT(*) AS review_count FROM reviews GROUP BY bookid) r ON b.id = r.bookid 
               WHERE 1=1";
 
-    #if ($doc_type) {
-        #$query .= " AND b.document_type = '$doc_type'";
-    #}
-    #if ($language) {
-    #    $query .= " AND b.language = '$language'";
-    #}
     if (!empty($branch) && $branch !== 'branch') {
         $query .= " AND b.department = '$dept[$branch]'";
     }
@@ -27,11 +21,14 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
         $query .= " AND (b.title LIKE '%$search_input%' OR b.author LIKE '%$search_input%')";
     }
 
-    $query .= " GROUP BY b.id, b.title, b.author, b.department ORDER BY like_count DESC";
+    $query .= "ORDER BY like_count DESC";
 
     $result = mysqli_query($connection, $query);
     $count = $result->num_rows;
     $html = [];
+    $genres = [];
+    $authors = [];
+    $publishers = [];
     $iter = 0;
 
     while ($row = $result->fetch_assoc()) {
@@ -49,11 +46,26 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
                                 </div>
                             </div>
                         </div>";
+
+        if (!in_array($row['genre'], $genres)) {
+            $genres[] = $row['genre'];
+        }
+        if (!in_array($row['author'], $authors)) {
+            $authors[] = $row['author'];
+        }
+        if (!in_array($row['publisher'], $publishers)) {
+            $publishers[] = $row['publisher'];
+        }
         $iter++;
     }
+
     $htmlContent = implode("", $html);
     $_SESSION["search"] = $htmlContent;
     $_SESSION["count"] = $count;
+    $_SESSION["genres"] = $genres;
+    $_SESSION["authors"] = $authors;
+    $_SESSION["publishers"] = $publishers;
+
     $connection->close();
     Header("Location:search.php");
 } else {
