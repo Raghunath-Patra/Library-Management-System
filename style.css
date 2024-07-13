@@ -42,7 +42,13 @@ a {
   margin-bottom: 24px;
   color: #333333;
 }
-
+.login-container .wrong_entry{
+  width: 100%;
+  background-color: rgb(252, 136, 136);
+  text-align: center;
+  margin-bottom: 15px;
+  border-radius: 7px;
+}
 .login-container form {
   position: relative;
 }
@@ -262,16 +268,33 @@ align-items: center;
 .dash .user_data  #notice{
   background-color:white;
   display: flex;
-  justify-content: center;
   flex-direction: column;
   align-items: center;
   border-radius: 7px;
   box-shadow: 0 0.5rem 0.7rem #0005;
-  overflow-y: auto;
+  overflow-y: hidden;
+  max-height: 277px;
 }
-.dash .user_data  #notice p{
-  width:90%;
+.dash .user_data  #notice h2{
+  width: 100%;
+  background-color: #8b8d8c;
   text-align: center;
+}
+.dash .user_data  #notice .notification{
+  width:90%;
+  height: 85%;
+  border: 2px solid #8c949d;
+  border-top: 0px solid;
+  background-color: #e4e6e8;
+  overflow-y: hidden;
+}
+.dash .user_data #notice .notification marquee{
+  height: 100%;
+}
+.dash .user_data  #notice .notification  li{
+  list-style-type: disc;
+  padding-bottom: 10px;
+  padding-left: 5px;
 }
 @media only screen and (max-width:800px){
   .dash .user_data{
@@ -647,7 +670,7 @@ footer {
 
 .book_details .order div {
   height: 30px;
-  width: clamp(270px, 75%, 400px);
+  width: clamp(260px, 75%, 400px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -663,13 +686,15 @@ footer {
   justify-content: center;
   align-items: center;
 }
-
+.book_details .order #renew_book{
+  background-color: rgba(248, 208, 121, 0.796);
+}
 .book_details .order #issue_book {
   background-color: rgba(248, 172, 7, 0.796);
 }
 
 .book_details .description_of_book {
-  padding-left: 30px;
+  padding-left: 20px;
 }
 
 .book_details .dates .wrapper {
@@ -739,7 +764,7 @@ footer {
 }
 
 .book_details .review_section .add_review textarea {
-  width: 250px;
+  width: clamp(200px,75%,250px);
   border: 2px solid #8b8d8c;
   border-radius: 4px;
 }
