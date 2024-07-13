@@ -99,7 +99,7 @@
             }
             else if (updateDueDate($increment)) {
                 echo $_SESSION['due'];
-                $extend_msg = "\nExtended by $increment days";
+                $extend_msg = "\nDue extended by $increment days.\n$increment points will be deducted on your issue.";
                 echo $extend_msg;
             } else {
                 $extend_msg = "Error: Unable to update due date.";
@@ -136,11 +136,11 @@
     <div id="book_container">
             <div class="likes">
                 <i <?php if(userLiked()) : ?>
-                        class="fa-regular fa-heart like_icon"
+                        class="fa-solid fa-heart like_icon" 
                     <?php else: ?>
-                        class="fa-solid fa-lock like_icon"
+                        class="fa-regular fa-heart like_icon"
                     <?php endif ?>
-                        data-id="<?php echo $_SESSION['book_id']?>"></i>
+                        data-id="<?php echo $_SESSION['book_id']?>" style="color:red;" ></i>
                 <h3 id = "like_count"><?php echo $likes ?></h3>
             </div>
             <img id="book_img" class="img_n_likes" src="https://openclipart.org/image/2400px/svg_to_png/204361/1415799000.png" alt="Book">
@@ -149,9 +149,9 @@
         <div class="description_of_book">
                 <h1 id="title"><?php echo $title ?></h1>
                 <br>
-                <h3 id="author">by: <?php echo $author ?>, <?php echo $description ?></h3>
+                <h3 id="author">by: <?php echo $author ?>
                 <br>
-                <h4 id="department"><?php echo $department ?></h4>
+                <h4 id="department">Department: <?php echo $department ?></h4>
                 <br>
                 <h4 id="description"><?php echo $description ?></h4>
                 <br>
@@ -180,6 +180,9 @@
             <div id="issue_book">
                 <h3>Issue Book</h3>
             </div>
+            <div id="renew_book">
+                <h3>Renew Book</h3>
+            </div>
             <div id="add_to_cart">
                 <i class="fa-regular fa-heart"></i>
                 <h3>Add to Cart</h3>
@@ -207,12 +210,14 @@
                         }
                     ?>    
             </div>
-            <div class="add_review">
-                <form name='form' method='post' action="issue.php">
-                <textarea name="comment" id="comment" placeholder="Enter your input here..."></textarea>
-                <input type="submit" name="submit" value="Submit">  
-                </form>
-            </div>
+            
+            <form name='form' method='post' action="issue.php">
+                <div class="add_review">
+                    <textarea name="comment" id="comment" placeholder="Enter your input here..."></textarea>
+                    <button type="submit" name="submit" value="Submit">Post</button>
+                </div>
+            </form>
+            
         </div>
     </section>
     <script>
@@ -256,6 +261,7 @@
 
         document.addEventListener("DOMContentLoaded", function() {
             const issueBookDiv = document.getElementById("issue_book");
+            const renewBookDiv = document.getElementById("renew_book");
 
             issueBookDiv.addEventListener("click", function() {
                 const xhr = new XMLHttpRequest();
@@ -284,6 +290,34 @@
                 };
                 xhr.send();
             });
+
+            renewBookDiv.addEventListener("click", function() {
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "handle_renew.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            try {
+                                const response = JSON.parse(xhr.responseText);
+                                if (response.status === "success") {
+                                    alert("Book renewed successfully!");
+                                    window.location.href = "stu_dashboard.php";
+                                } else {
+                                    alert("Error: " + response.message);
+                                }
+                            } catch (e) {
+                                console.error("Error parsing JSON response: ", e);
+                                alert("Unexpected error occurred.");
+                            }
+                        } else {
+                            console.error("XHR request failed with status: ", xhr.status);
+                            alert("Error renewing book.");
+                        }
+                    }
+                };
+                xhr.send();
+            });
         });
 
 
@@ -291,17 +325,17 @@
             $('.like_icon').on('click',function(){
                 var book_id = $(this).data('id');
                 $clicked_btn = $(this);
-                if($clicked_btn.hasClass('fa-solid fa-lock')){
+                if($clicked_btn.hasClass('fa-regular fa-heart')){
                     action = 'like';
-                    $clicked_btn.removeClass('fa-solid fa-lock');
-                    $clicked_btn.addClass('fa-regular fa-heart');
+                    $clicked_btn.removeClass('fa-regular fa-heart');
+                    $clicked_btn.addClass('fa-solid fa-heart');
                     likes = (parseInt(likes)+1).toString();
                     document.getElementById("like_count").innerHTML = likes;
                 }
-                else if($clicked_btn.hasClass('fa-regular fa-heart')){
+                else if($clicked_btn.hasClass('fa-solid fa-heart')){
                     action = 'unlike';
-                    $clicked_btn.removeClass('fa-regular fa-heart');
-                    $clicked_btn.addClass('fa-solid fa-lock');
+                    $clicked_btn.removeClass('fa-solid fa-heart');
+                    $clicked_btn.addClass('fa-regular fa-heart');
                     likes = (parseInt(likes)-1).toString();
                     document.getElementById("like_count").innerHTML = likes;
                 }
@@ -315,12 +349,12 @@
                     success: function(data){
                         res = JSON.parse(data);
                         if(action == "like"){
-                            $clicked_btn.removeClass('fa-solid fa-lock');
-                            $clicked_btn.addClass('fa-regular fa-heart');
+                            $clicked_btn.removeClass('fa-regular fa-heart');
+                            $clicked_btn.addClass('fa-solid fa-heart');
                         }
                         else if(action == "unlike"){
-                            $clicked_btn.removeClass('fa-regular fa-heart');
-                            $clicked_btn.addClass('fa-solid fa-lock');
+                            $clicked_btn.removeClass('fa-solid fa-heart');
+                            $clicked_btn.addClass('fa-regular fa-heart');
                         }
                     }
                 });
