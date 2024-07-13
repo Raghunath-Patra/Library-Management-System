@@ -32,6 +32,19 @@
         } else {
             $html .= "<tr><td colspan='5'>No records found</td></tr>";
         }
+        $query_4 = "SELECT n.id, n.message 
+                    FROM Notifications n 
+                    LEFT JOIN UserNotification un ON n.id = un.notification_id
+                    WHERE (n.type = 'global' OR un.roll = '$_SESSION[roll]')
+                    ORDER BY n.timestamp DESC";
+        $result_4 = mysqli_query($connection, $query_4);
+        $notes = [];
+        $iter = 0;
+        while ($row = $result_4->fetch_assoc()) {
+            $notes[$iter] = "<li>" . $row['message'] . "</li>";
+            $iter++;
+        }
+        $htmlContent = implode("", $notes);
         $connection->close();
     }
     else {
@@ -120,10 +133,12 @@
 
             <div id="notice">
                 <h2>Notifications</h2>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
-                    Dolorum sed quasi eaque, harum esse reprehenderit
-                     voluptatibus, sunt animi nisi, omnis pos
-                </p>
+                <div class="notification">
+                    <marquee behavior="" direction="up" scrollamount="4">
+                        <?php echo $htmlContent ?>
+                    </marquee>
+                </div>
+                
             </div>
         </div>
     </div>
