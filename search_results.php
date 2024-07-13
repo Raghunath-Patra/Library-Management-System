@@ -8,22 +8,18 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
     $search_input = isset($_GET['search_input']) ? $_GET['search_input'] : '';
     $dept = array("cse" => "Computer Science", "me" => "Mechanical Engineering", "ee" => "Electrical Engineering", "ce" => "Civil Engineering", "ch" => "Chemical Engineering", "ep" => "Engineering Physics", "mnc" => "Maths and Computing", "bsms" => "Interdisciplinary Sciences");
 
-    $query = "SELECT b.id, b.title, b.author, b.department, b.genre, b.publisher, COALESCE(l.like_count, 0) AS like_count, COALESCE(r.review_count, 0) AS review_count
-              FROM books b 
-              LEFT JOIN (SELECT bookid, COUNT(*) AS like_count FROM likes GROUP BY bookid) l ON b.id = l.bookid
-              LEFT JOIN (SELECT bookid, COUNT(*) AS review_count FROM reviews GROUP BY bookid) r ON b.id = r.bookid 
-              WHERE 1=1";
+    $_SESSION['query'] = "SELECT b.id, b.title, b.author, b.department, b.genre, b.publisher, COALESCE(l.like_count, 0) AS like_count, COALESCE(r.review_count, 0) AS review_count FROM books b LEFT JOIN (SELECT bookid, COUNT(*) AS like_count FROM likes GROUP BY bookid) l ON b.id = l.bookid LEFT JOIN (SELECT bookid, COUNT(*) AS review_count FROM reviews GROUP BY bookid) r ON b.id = r.bookid WHERE 1=1";
 
     if (!empty($branch) && $branch !== 'branch') {
-        $query .= " AND b.department = '$dept[$branch]'";
+        $_SESSION['query'] .= " AND b.department = '$dept[$branch]'";
     }
     if (!empty($search_input)) {
-        $query .= " AND (b.title LIKE '%$search_input%' OR b.author LIKE '%$search_input%')";
+        $_SESSION['query'] .= " AND (b.title LIKE '%$search_input%' OR b.author LIKE '%$search_input%')";
     }
 
-    $query .= " ORDER BY like_count DESC";
+    $_SESSION['query'] .= " ORDER BY like_count DESC";
 
-    $result = mysqli_query($connection, $query);
+    $result = mysqli_query($connection, $_SESSION['query']);
     $count = $result->num_rows;
     $html = [];
     $genres = [];
