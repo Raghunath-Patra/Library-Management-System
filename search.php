@@ -52,6 +52,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
                     var response = JSON.parse(xhr.responseText);
                     if (response.status === "success") {
                         document.querySelector('.resultant_books').innerHTML = response.message;
+                        document.getElementById('no_of_results').innerText = 'Your search returned ' + response.count + ' Results';
                     } else {
                         alert('Filtering failed. Please try again.');
                     }

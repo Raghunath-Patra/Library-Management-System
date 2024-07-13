@@ -74,7 +74,8 @@
                 $iter++;
             }
             $htmlContent = implode("", $html);
-            echo json_encode(array("status" => "success", "message" => $htmlContent));
+            $count = $result->num_rows;
+            echo json_encode(array("status" => "success", "message" => $htmlContent,"count" =>$count));
         } else {
             echo json_encode(array("status" => "error", "message" => "Invalid request method."));
             exit;
