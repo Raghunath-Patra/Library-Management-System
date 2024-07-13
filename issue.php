@@ -189,7 +189,7 @@
             <h1><?php echo $reviews ?> Total Reviews</h1>
             <div class="review_box">
                     <?php
-                        $query = "select * from reviews";
+                        $query = "select * from reviews ORDER BY timestamp DESC";
                         $query_run = mysqli_query($connection,$query);
                         while ($row = mysqli_fetch_assoc($query_run))
                         {
