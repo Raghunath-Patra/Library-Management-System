@@ -92,7 +92,7 @@
                     </div>
                     <div>
                         <i class="fa-solid fa-book"></i>
-                        <a href="request.html" class="dash_link">Request a book</a>
+                        <a href="request_book.php" class="dash_link">Request a book</a>
                     </div>
                     <div>
                         <i class="fa-solid fa-right-to-bracket"></i>
