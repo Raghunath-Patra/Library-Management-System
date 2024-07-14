@@ -29,7 +29,6 @@ a {
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   max-width: 400px;
-  width: 100%;
   margin: 5px;
 }
 
@@ -653,6 +652,7 @@ footer {
   background-color: transparent;
   display: flex;
 }
+
 @media only screen and (max-width:700px){
   #book_container #book_img{
     max-width: 30vh;
@@ -874,21 +874,18 @@ footer {
     background-color: rgb(214, 217, 217);
     margin-right: 15px;
 }
-.filter_container h3{
+.filter_container h3,
+.filter_container #apply_filter{
     width:100%;
     padding: 3px;
     text-align: center;
 }
-.filter_container optgroup{
-    margin: 5px;
+.filter_container .genre,
+.filter_container .publisher{
+    padding-left: 5px;
+    max-height: 210px;
+    overflow-y: auto;
 }
-.filter_container optgroup option{
-    width: 100%;
-    margin-left: 10px;
-    padding-right: 5px;
-    text-wrap: wrap;
-}
-
 .search_result_container{
     width: 100%;
     background-color: antiquewhite;
@@ -954,19 +951,19 @@ footer {
     margin-left: 0px;
     background-color: rgb(228, 232, 232);;
 }
-.filter_container_responsive h3{
+
+.filter_container_responsive h3,
+.filter_container_responsive #apply_filter{
     width:100%;
     padding: 3px;
     text-align: center;
 }
-.filter_container_responsive optgroup{
-    margin: 5px;
-}
-.filter_container_responsive optgroup option{
-    width: 100%;
-    margin-left: 10px;
-    padding-right: 5px;
-    text-wrap: wrap;
+
+.filter_container_responsive .genre,
+.filter_container_responsive .publisher{
+    padding-left: 5px;
+    max-height: 210px;
+    overflow-y: auto;
 }
 @media only screen and (max-width:700px){
     #hamburger{
@@ -988,99 +985,63 @@ footer {
 
 .request_page {
   font-family: Arial, sans-serif;
-  background-color: #f8f8f8;
-  display: flex;
-  background-image: url('https://papers.co/wallpaper/papers.co-vy12-simple-white-pattern-background-8-wallpaper.jpg');
-  justify-content: center;
-  align-items: center;
+  width:100%;
   height: 100vh;
   margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
 }
 
 .request-container {
   background: transparent;
   backdrop-filter: blur(10px);
-  padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
-  width: 100%;
+  max-width: 500px;
   margin: 5px;
-}
-
-.logo {
-  margin-top: 100px;
+  
 }
 
 .request-container h1 {
   text-align: center;
-  margin-bottom: 24px;
+  margin: 10px 0;
   color: #333333;
 }
-
-.request-container form {
-  position: relative;
-}
-
-.request-container form input {
-  width: 100%;
-  height: 100%;
-  border: 1px solid #cccccc;
-  border-radius: 7px;
-}
-
-.request-container form label {
-  position: relative;
-  left: 10px;
-  top: -29px;
-  padding-left: 5px;
-  padding-right: 5px;
-  background: white;
-  transition: all 0.3s ease;
-}
-
-.request-container .user_name,
-.request-container .book_name,
-.request-container .book_writer,
-.request-container .book_publisher {
-  width: 100%;
-  height: 40px;
-  margin-bottom: 16px;
-  border: 1px solid #cccccc;
-  border-radius: 7px;
-}
-
-.request-container .numbers {
+.request_page .request-container form{
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-
-.request-container .numbers .required_number,
-.request-container .numbers .stock {
+.request_page .request-container form div{
+  width:100%;
+  display: flex;
+  justify-content: center;
+}
+.request_page .request-container form div input{
   width: 100%;
-  height: 40px;
-  margin-left: 5px;
-  margin-right: 5px;
-  margin-bottom: 16px;
-  border: 1px solid #cccccc;
-  border-radius: 7px;
+  height: 30px;
+  margin:10px 7px;
+  border-radius: 12px;
+  border: 1.5px solid rgb(53, 52, 52);
+  box-shadow: 0 0.3rem 0.5rem #0005;
+  padding-left: 5px;
 }
-
-input:focus+label,
-input:valid+label {
-  font-size: 12px;
-  top: -50px;
+.request_page .request-container form div textarea{
+  width:95%;
+  margin-bottom: 10px;
 }
-
-input:focus+label {
-  color: blue;
+.request_page .request-container form div button{
+  width:95%;
+  padding: 5px 0;
+  border-radius: 12px;
+  border: 1.5px solid rgb(100, 147, 241);
+  background-color: rgb(150, 181, 244);
 }
-
-input:focus {
-  border-color: blue;
-  outline: 1.5px solid blue;
+.request_page .request-container form div select{
+  width:80%;
+  margin-bottom: 10px;
+  padding: 3px;
 }
-
-
