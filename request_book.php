@@ -16,7 +16,7 @@
         $reason = $_POST['reason'];
         $notes = $_POST['notes'];
 
-        $connection = new mysqli("localhost", "root", "", "SOI");
+        $connection = new mysqli(server,username,password,database);
         if ($connection->connect_error) {
             die("Connection failed: " . $connection->connect_error);
         }
