@@ -11,6 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
+        //Checking if user is logged in and book_id and roll exist.
         if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true && isset($_SESSION['book_id']) && isset($_SESSION['roll'])) {
             $book_id = $_SESSION['book_id'];
             $roll = $_SESSION['roll'];
@@ -24,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($check_result->num_rows < 1) {
                 throw new Exception("ISSUE the book first");
             }
+            //Returning and reissuing the book
             $retrn = 1;
             $update_return_status = "UPDATE issues SET returned = $retrn WHERE roll = '$_SESSION[roll]' AND bookid = '$_SESSION[book_id]'";
             if ($connection->query($update_return_status) === TRUE) {
