@@ -26,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 throw new Exception("Book already issued to this user.");
             }
 
+            //Updating points
             $insert_query = "INSERT INTO issues (bookid, roll, issuedate, duedate, returned) VALUES ('$book_id', '$roll', '$issue_date', '$due_date', '$returned')";
             if ($connection->query($insert_query) === TRUE) {        
                 if(isset($_SESSION["increment"]))
